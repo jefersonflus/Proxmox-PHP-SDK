@@ -11,8 +11,7 @@ namespace Proxmox;
 
 use \Curl\Curl;
 
-class Request
-{
+class Request {
   protected static $hostname;
   protected static $username;
   protected static $password;
@@ -20,17 +19,16 @@ class Request
   protected static $token_value = false;
   protected static $realm;
   protected static $port;
-  protected static $ticket;
+  public static $ticket;
   protected static $Client;
-
+  
   /**
    * Proxmox Api client
    * @param array $configure   hostname, username, password, realm, port
    */
-  public static function Login(array $configure, $verifySSL = false, $verifyHost = false)
-  {
+  public static function Login(array $configure, $verifySSL = false, $verifyHost = false) {
     $check = false;
-
+    
     if (empty($configure['password'])) {
       if (empty($configure['token_name']) || empty($configure['token_value'])) {
         $check = true;
@@ -41,12 +39,12 @@ class Request
     } else {
       self::$password = $configure['password'];
     }
-
+    
     self::$hostname     = !empty($configure['hostname'])      ? $configure['hostname']    : $check = true;
     self::$username     = !empty($configure['username'])      ? $configure['username']    : $check = true;
     self::$realm        = !empty($configure['realm'])         ? $configure['realm']       : 'pam'; // pam - pve - ..
     self::$port         = !empty($configure['port'])          ? $configure['port']        : 8006;
-
+    
     if ($check) {
       throw new ProxmoxException(
         'Require in array [hostname], [username], [password] or [token_name] and [token_value], [realm], [port]'
@@ -58,14 +56,13 @@ class Request
    * Create or verify authentication ticket.
    * POST /api2/json/access/ticket
    */
-  protected static function ticket($verifySSL, $verifyHost)
-  {
-    self::$Client = new \Curl\Curl();
+  protected static function ticket($verifySSL, $verifyHost) {
+    self::$Client = new Curl();
     self::$Client->setOpts([
       CURLOPT_SSL_VERIFYPEER => $verifySSL,
       CURLOPT_SSL_VERIFYHOST => $verifyHost
     ]);
-
+    
     if (self::$token_name && self::$token_value) {
       self::$Client->setHeader('Authorization', sprintf(
         'PVEAPIToken=%s!%s=%s',
@@ -79,9 +76,7 @@ class Request
         'password'  => self::$password,
         'realm'     => self::$realm,
       ];
-
       $response = self::$Client->post("https://" . self::$hostname . ":" . self::$port . "/api2/json/access/ticket", $data);
-
       if (!$response) {
         throw new ProxmoxException('Request params empty');
       }
@@ -90,18 +85,25 @@ class Request
       self::$Client->setHeader('CSRFPreventionToken', $response->data->CSRFPreventionToken);
       // set cookie
       self::$Client->setCookie('PVEAuthCookie', $response->data->ticket);
-    }
 
+      // Armazenar o ticket
+      self::$ticket = $response->data->ticket;
+    }
+    self::$username = '';
+    self::$password = '';
+    self::$token_name = '';
+    self::$token_value = '';
+    self::$realm = '';
     return true;
   }
+
   /**
    * Request
    * @param string $path
    * @param array $params
    * @param string $method
    */
-  public static function Request($path, array $params = null, $method = "GET")
-  {
+  public static function Request($path, array $params = null, $method = "GET") {
     if (substr($path, 0, 1) != '/') {
       $path = '/' . $path;
     }

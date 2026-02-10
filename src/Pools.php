@@ -25,17 +25,35 @@ class Pools
     * GET /api2/json/pools/{poolid}
     * @param string   $poolid
   */
-  public function PoolsID($poolid)
+  public function getPool($poolid)
   {
       return Request::Request("/pools/$poolid");
+  }
+  /**
+   * Read system log
+   * GET /api2/json/pools/{poolid}
+   * @param string   $poolid
+   */
+  public function UpdatePool($data = array())
+  {
+    return Request::Request("/pools", $data, "PUT");
+  }
+  /**
+   * Read system log
+   * GET /api2/json/pools/{poolid}
+   * @param string   $poolid
+   */
+  public function CreatePool($data = array())
+  {
+    return Request::Request("/pools", $data, "POST");
   }
   /**
     * Read system log
     * GET /api2/json/pools/{poolid}
     * @param string   $poolid
   */
-  public function PutPool($poolid, $data = array())
+  public function DeletePool($poolid)
   {
-      return Request::Request("/pools/$poolid", $data, "PUT");
+      return Request::Request("/pools/$poolid",null,"DELETE");
   }
 }
