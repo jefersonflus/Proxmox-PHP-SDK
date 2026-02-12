@@ -1,9 +1,9 @@
-![ProxmoxVE_PHP_API](https://upload.wikimedia.org/wikipedia/en/thumb/2/25/Proxmox-VE-logo.svg/600px-Proxmox-VE-logo.svg.png)
+![Proxmox PHP SDK](https://upload.wikimedia.org/wikipedia/en/thumb/2/25/Proxmox-VE-logo.svg/600px-Proxmox-VE-logo.svg.png)
 
-# ProxmoxVE PHP API
+# Proxmox PHP SDK
 
 ## Table of Contents
-- [ProxmoxVE PHP API](#proxmoxve-php-api)
+- [Proxmox PHP SDK](#proxmox-php-sdk)
   - [Table of Contents](#table-of-contents)
   - [Installation](#installation)
   - [Usage](#usage)
@@ -45,10 +45,10 @@
 
 
 ## Installation
-To install ProxmoxVE_PHP_API, simply:
+To install Proxmox PHP SDK, simply:
 
 ```bash
-composer require jefersonflus/proxmox-ve_php_api @dev
+composer require jefersonflus/proxmox-php-sdk @dev
 ```
 
 ## Usage

@@ -1,7 +1,7 @@
 {
-    "name": "jefersonflus/proxmox-ve_php_api",
+    "name": "jefersonflus/proxmox-php-sdk",
     "type": "library",
-    "description": "ProxmoxVE PHP API",
+    "description": "Proxmox PHP SDK",
     "keywords": ["Proxmox", "API", "PHP", "PVE"],
     "license": "MIT",
     "authors": [
