@@ -93,13 +93,13 @@ class Access
   }
   /**
     * Update group data.
-    * POST /api2/json/access/groups/{groupid}
+    * PUT /api2/json/access/groups/{groupid}
     * @param string   $groupid
     * @param array    $data
   */
   public function updateGroup($groupid, $data = array())
   {
-      return Request::Request("/access/groups/$groupid", $data, 'POST');
+      return Request::Request("/access/groups/$groupid", $data, 'PUT');
   }
   /**
     * Delete group.

@@ -79,34 +79,37 @@ class Nodes
       return Request::Request("/nodes/$node/ceph");
   }
   /**
-    * get all set ceph flags
-    * GET /api2/json/nodes/{node}/ceph/flags
+    * Get all ceph flags (cluster scope).
+    * GET /api2/json/cluster/ceph/flags
     * @param string   $node     The cluster node name.
   */
   public function CephFlags($node)
   {
-      return Request::Request("/nodes/$node/ceph/flags");
+      return Request::Request("/cluster/ceph/flags");
   }
   /**
-    * Set a ceph flag
-    * POST /api2/json/nodes/{node}/ceph/flags/{flag}
+    * Set a ceph flag (cluster scope).
+    * PUT /api2/json/cluster/ceph/flags/{flag}
     * @param string   $node     The cluster node name.
     * @param enum     $flag     The ceph flag to set/unset
     * @param array    $data
   */
   public function setCephFlags($node, $flag, $data = array())
   {
-      return Request::Request("/nodes/$node/ceph/flags/$flag", $data, "POST");
+      if (!array_key_exists('value', $data)) {
+          $data['value'] = true;
+      }
+      return Request::Request("/cluster/ceph/flags/$flag", $data, "PUT");
   }
   /**
-    * Unset a ceph flag
-    * DELETE /api2/json/nodes/{node}/ceph/flags/{flag}
+    * Unset a ceph flag (cluster scope).
+    * PUT /api2/json/cluster/ceph/flags/{flag}
     * @param string   $node     The cluster node name.
     * @param enum     $flag     The ceph flag to set/unset
   */
   public function unsetCephFlags($node, $flag)
   {
-      return Request::Request("/nodes/$node/ceph/flags/$flag", null, "DELETE");
+      return Request::Request("/cluster/ceph/flags/$flag", ['value' => false], "PUT");
   }
   /**
     * Create Ceph Manager
@@ -116,7 +119,8 @@ class Nodes
   */
   public function createCephMgr($node, $data = array())
   {
-      return Request::Request("/nodes/$node/ceph/mgr", $data, "POST");
+      $id = !empty($data['id']) ? $data['id'] : $node;
+      return Request::Request("/nodes/$node/ceph/mgr/$id", $data, "POST");
   }
   /**
     * Destroy Ceph Manager.
@@ -145,7 +149,8 @@ class Nodes
   */
   public function createCephMon($node, $data = array())
   {
-      return Request::Request("/nodes/$node/ceph/mon", $data, "POST");
+      $monid = !empty($data['monid']) ? $data['monid'] : $node;
+      return Request::Request("/nodes/$node/ceph/mon/$monid", $data, "POST");
   }
   /**
     * Destroy Ceph Monitor and Manager.
@@ -155,7 +160,7 @@ class Nodes
   */
   public function destroyCephMon($node, $monid)
   {
-      return Request::Request("/nodes/$node/ceph/mgr/$monid", null, "DELETE");
+      return Request::Request("/nodes/$node/ceph/mon/$monid", null, "DELETE");
   }
   /**
     * Get Ceph osd list/tree.
@@ -210,40 +215,48 @@ class Nodes
   }
   /**
     * List all pools.
-    * GET /api2/json/nodes/{node}/ceph/pools
+    * GET /api2/json/nodes/{node}/ceph/pool
     * @param string   $node     The cluster node name.
   */
   public function getCephPools($node)
   {
-      return Request::Request("/nodes/$node/ceph/pools");
+      return Request::Request("/nodes/$node/ceph/pool");
   }
   /**
     * Create POOL
-    * POST /api2/json/nodes/{node}/ceph/pools
+    * POST /api2/json/nodes/{node}/ceph/pool
     * @param string   $node     The cluster node name.
     * @param array    $data
   */
   public function createCephPool($node, $data = array())
   {
-      return Request::Request("/nodes/$node/ceph/pools", $data, "POST");
+      return Request::Request("/nodes/$node/ceph/pool", $data, "POST");
   }
   /**
     * Destroy POOL
-    * DELETE /api2/json/nodes/{node}/ceph/pools
+    * DELETE /api2/json/nodes/{node}/ceph/pool/{name}
     * @param string   $node     The cluster node name.
+    * @param string   $name
+    * @param array    $data
   */
-  public function destroyCephPool($node)
+  public function destroyCephPool($node, $name = null, $data = array())
   {
-      return Request::Request("/nodes/$node/ceph/pools", null, "DELETE");
+      if (empty($name) && !empty($data['name'])) {
+          $name = $data['name'];
+      }
+      if (empty($name)) {
+          throw new ProxmoxException('Parameter [name] is required to delete ceph pool.');
+      }
+      return Request::Request("/nodes/$node/ceph/pool/$name", $data, "DELETE");
   }
   /**
     * Get Ceph configuration.
-    * GET /api2/json/nodes/{node}/ceph/config
+    * GET /api2/json/nodes/{node}/ceph/cfg
     * @param string   $node     The cluster node name.
   */
   public function CephConfig($node)
   {
-      return Request::Request("/nodes/$node/ceph/config");
+      return Request::Request("/nodes/$node/ceph/cfg");
   }
   /**
     * Get OSD crush map
@@ -256,12 +269,12 @@ class Nodes
   }
   /**
     * List local disks.
-    * GET /api2/json/nodes/{node}/ceph/disks
+    * GET /api2/json/nodes/{node}/disks/list
     * @param string   $node     The cluster node name.
   */
   public function CephDisks($node)
   {
-      return Request::Request("/nodes/$node/ceph/disks");
+      return Request::Request("/nodes/$node/disks/list");
   }
   /**
     * Create initial ceph default configuration and setup symlinks.
@@ -335,13 +348,13 @@ class Nodes
   }
   /**
     * Initialize Disk with GPT
-    * POST /api2/json/nodes/{node}/disks
+    * POST /api2/json/nodes/{node}/disks/initgpt
     * @param string   $node     The cluster node name.
     * @param array    $data
   */
   public function Disk($node, $data = array())
   {
-      return Request::Request("/nodes/$node/disks", $data, "POST");
+      return Request::Request("/nodes/$node/disks/initgpt", $data, "POST");
   }
   /**
     * List local disks.
@@ -424,31 +437,31 @@ class Nodes
   }
   /**
     * Read firewall log
-    * GET /api2/json/nodes/{node}/firewall/rules/log
+    * GET /api2/json/nodes/{node}/firewall/log
     * @param string   $node     The cluster node name.
   */
   public function firewallRulesLog($node)
   {
-      return Request::Request("/nodes/$node/firewall/rules/log");
+      return Request::Request("/nodes/$node/firewall/log");
   }
   /**
     * Get host firewall options.
-    * GET /api2/json/nodes/{node}/firewall/rules/options
+    * GET /api2/json/nodes/{node}/firewall/options
     * @param string   $node     The cluster node name.
   */
   public function firewallRulesOptions($node)
   {
-      return Request::Request("/nodes/$node/firewall/rules/options");
+      return Request::Request("/nodes/$node/firewall/options");
   }
   /**
     * Set Firewall options.
-    * PUT /api2/json/nodes/{node}/firewall/rules/options
+    * PUT /api2/json/nodes/{node}/firewall/options
     * @param string   $node     The cluster node name.
     * @param array    $data
   */
   public function setFirewallRuleOptions($node, $data = array())
   {
-      return Request::Request("/cluster/firewall/options", $data, "PUT");
+      return Request::Request("/nodes/$node/firewall/options", $data, "PUT");
   }
   /**
     * LXC container index (per node).
@@ -1566,14 +1579,14 @@ class Nodes
   }
   /**
     * Execute Qemu Guest Agent commands.
-    * POST /api2/json/nodes/{node}/qemu/{vmid}/status/agent
+    * POST /api2/json/nodes/{node}/qemu/{vmid}/agent
     * @param string   $node    The cluster node name.
     * @param integer  $vmid    The (unique) ID of the VM.
     * @param array    $data
   */
   public function qemuAgent($node, $vmid, $data = array())
   {
-      return Request::Request("/nodes/$node/qemu/$vmid/status/agent", $data, 'POST');
+      return Request::Request("/nodes/$node/qemu/$vmid/agent", $data, 'POST');
   }
   /**
     * Execute command via Qemu Guest Agent.
@@ -1859,13 +1872,12 @@ class Nodes
       return Request::Request("/nodes/$node/scan");
   }
   /**
-    * Scan remote GlusterFS server.
-    * GET /api2/json/nodes/{node}/scan/glusterfs
+    * GlusterFS scan endpoint was removed from recent Proxmox versions.
     * @param string   $node    The cluster node name.
   */
   public function scanGlusterfs($node)
   {
-      return Request::Request("/nodes/$node/scan/glusterfs");
+      throw new ProxmoxException('Endpoint /nodes/{node}/scan/glusterfs is not available in current Proxmox API.');
   }
   /**
     * Scan remote iSCSI server.
@@ -1896,12 +1908,12 @@ class Nodes
   }
   /**
     * List local USB devices.
-    * GET /api2/json/nodes/{node}/scan/usb
+    * GET /api2/json/nodes/{node}/hardware/usb
     * @param string   $node    The cluster node name.
   */
   public function scanUsb($node)
   {
-      return Request::Request("/nodes/$node/scan/usb");
+      return Request::Request("/nodes/$node/hardware/usb");
   }
   /**
     * Scan zfs pool list on local node.
@@ -2066,44 +2078,62 @@ class Nodes
   }
   /**
     * Read storage RRD statistics (returns PNG)
-    * GET /api2/json/nodes/{node}/storage/rrd
+    * GET /api2/json/nodes/{node}/storage/{storage}/rrd
     * @param string   $node     The cluster node name.
     * @param string   $storage  The storage identifier.
   */
-  public function storageRRD($node)
+  public function storageRRD($node, $storage = null)
   {
-      return Request::Request("/nodes/$node/storage/rrd");
+      if (empty($storage)) {
+          throw new ProxmoxException('Parameter [storage] is required.');
+      }
+      return Request::Request("/nodes/$node/storage/$storage/rrd");
   }
   /**
     * Read storage RRD statistics.
-    * GET /api2/json/nodes/{node}/storage/rrddata
+    * GET /api2/json/nodes/{node}/storage/{storage}/rrddata
     * @param string   $node     The cluster node name.
     * @param string   $storage  The storage identifier.
   */
-  public function storageRRDdata($node)
+  public function storageRRDdata($node, $storage = null)
   {
-      return Request::Request("/nodes/$node/storage/rrddata");
+      if (empty($storage)) {
+          throw new ProxmoxException('Parameter [storage] is required.');
+      }
+      return Request::Request("/nodes/$node/storage/$storage/rrddata");
   }
   /**
     * Read storage status.
-    * GET /api2/json/nodes/{node}/storage/status
+    * GET /api2/json/nodes/{node}/storage/{storage}/status
     * @param string   $node     The cluster node name.
     * @param string   $storage  The storage identifier.
   */
-  public function storageStatus($node)
+  public function storageStatus($node, $storage = null)
   {
-      return Request::Request("/nodes/$node/storage/status");
+      if (empty($storage)) {
+          throw new ProxmoxException('Parameter [storage] is required.');
+      }
+      return Request::Request("/nodes/$node/storage/$storage/status");
   }
   /**
     * Upload templates and ISO images.
-    * GET /api2/json/nodes/{node}/storage/upload
+    * POST /api2/json/nodes/{node}/storage/{storage}/upload
     * @param string   $node     The cluster node name.
     * @param string   $storage  The storage identifier.
     * @param array    $data
   */
-  public function storageUpload($node, $data = array())
+  public function storageUpload($node, $storage = null, $data = array())
   {
-      return Request::Request("/nodes/$node/storage/upload", $data, "POST");
+      if (is_array($storage)) {
+          // Backward compatibility for legacy calls using storage in $data['storage'].
+          $data = $storage;
+          $storage = !empty($data['storage']) ? $data['storage'] : null;
+          unset($data['storage']);
+      }
+      if (empty($storage)) {
+          throw new ProxmoxException('Parameter [storage] is required.');
+      }
+      return Request::Request("/nodes/$node/storage/$storage/upload", $data, "POST");
   }
   /**
     * Read task list for one node (finished tasks).

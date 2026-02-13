@@ -53,11 +53,11 @@ class Storage
   }
   /**
     * Delete storage configuration.
-    * Delete /api2/json/storage/{storage}
+    * DELETE /api2/json/storage/{storage}
     * @param string   $storage   The storage identifier.
   */
   public function deleteStorage($storage)
   {
-      return Request::Request("/storage/$storage", null, 'Delete');
+      return Request::Request("/storage/$storage", null, 'DELETE');
   }
 }
