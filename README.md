@@ -20,6 +20,11 @@
   - [Groups](#groups)
   - [Roles](#roles)
   - [Users](#users)
+  - [User Tokens](#user-tokens)
+  - [TFA](#tfa)
+  - [Permissions](#permissions)
+  - [Ticket](#ticket)
+  - [Version](#version)
   - [Cluster](#cluster)
   - [Backup](#backup)
   - [Config](#config)
@@ -53,7 +58,7 @@ composer require jefersonflus/proxmox-php-sdk @dev
 
 ## Usage
 
-`Request` exposes static methods. `Access`, `Cluster`, `Nodes`, `Pools`, and `Storage` expose instance methods.
+`Request` exposes static methods. `Access`, `Cluster`, `Nodes`, `Pools`, `Storage`, and `Version` expose instance methods.
 
 ### Quick Usage
 
@@ -98,6 +103,7 @@ use Proxmox\Cluster;
 use Proxmox\Nodes;
 use Proxmox\Pools;
 use Proxmox\Storage;
+use Proxmox\Version;
 
 $configure = [
     'hostname' => '0.0.0.0',
@@ -110,6 +116,7 @@ $cluster = new Cluster();
 $nodes = new Nodes();
 $pools = new Pools();
 $storage = new Storage();
+$version = new Version();
 
 print_r( $nodes->listNodes() ); // List Nodes
 ```
@@ -241,12 +248,14 @@ use Proxmox\Cluster;
 use Proxmox\Nodes;
 use Proxmox\Pools;
 use Proxmox\Storage;
+use Proxmox\Version;
 
 $access = new Access();
 $cluster = new Cluster();
 $nodes = new Nodes();
 $pools = new Pools();
 $storage = new Storage();
+$version = new Version();
 ```
 
 ## Access
@@ -255,6 +264,8 @@ $storage = new Storage();
 $access->Access()
 $access->Acl()
 $access->updateAcl($data = array())
+$access->Permissions($data = array())
+$access->Ticket($data = array())
 $access->createTicket($data = array())
 ```
 
@@ -297,6 +308,48 @@ $access->getUser($userid)
 $access->updateUser($userid, $data = array())
 $access->deleteUser($userid)
 $access->changeUserPassword($data = array())
+$access->userTfaEntries($userid)
+$access->unlockUserTfa($userid, $data = array())
+```
+
+## User Tokens
+
+```php
+$access->userTokens($userid)
+$access->userToken($userid, $tokenid)
+$access->createUserToken($userid, $tokenid, $data = array())
+$access->updateUserToken($userid, $tokenid, $data = array())
+$access->deleteUserToken($userid, $tokenid)
+```
+
+## TFA
+
+```php
+$access->Tfa()
+$access->TfaUser($userid)
+$access->createTfaUser($userid, $data = array())
+$access->TfaUserId($userid, $id)
+$access->updateTfaUserId($userid, $id, $data = array())
+$access->deleteTfaUserId($userid, $id)
+```
+
+## Permissions
+
+```php
+$access->Permissions($data = array())
+```
+
+## Ticket
+
+```php
+$access->Ticket($data = array())
+$access->createTicket($data = array())
+```
+
+## Version
+
+```php
+$version->getVersion()
 ```
 
 ## Cluster
@@ -386,9 +439,11 @@ $cluster->deleteReplication($id)
 ```php
 $pools->Pools()
 $pools->getPool($poolid)
-$pools->UpdatePool($data = array())
+$pools->UpdatePool($poolid_or_data = null, $data = array())
+$pools->UpdatePoolById($poolid, $data = array())
 $pools->CreatePool($data = array())
 $pools->DeletePool($poolid)
+$pools->DeletePools($data = array())
 ```
 
 ## Storage
@@ -676,10 +731,10 @@ $nodes->storageContent($node, $storage, $data = array())
 $nodes->storageContentVolume($node, $storage, $volume)
 $nodes->copyStorageContentVolume($node, $storage, $volume, $data = array())
 $nodes->deleteStorageContentVolume($node, $storage, $volume)
-$nodes->storageRRD($node)
-$nodes->storageRRDdata($node)
-$nodes->storageStatus($node)
-$nodes->storageUpload($node, $data = array())
+$nodes->storageRRD($node, $storage = null)
+$nodes->storageRRDdata($node, $storage = null)
+$nodes->storageStatus($node, $storage = null)
+$nodes->storageUpload($node, $storage = null, $data = array())
 ```
 
 ## Tasks

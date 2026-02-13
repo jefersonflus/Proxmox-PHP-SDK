@@ -227,6 +227,152 @@ class Access
       return Request::Request("/access/acl", $data, 'PUT');
   }
   /**
+    * Retrieve user API tokens.
+    * GET /api2/json/access/users/{userid}/token
+    * @param string   $userid
+  */
+  public function userTokens($userid)
+  {
+      return Request::Request("/access/users/$userid/token");
+  }
+  /**
+    * Read user API token.
+    * GET /api2/json/access/users/{userid}/token/{tokenid}
+    * @param string   $userid
+    * @param string   $tokenid
+  */
+  public function userToken($userid, $tokenid)
+  {
+      return Request::Request("/access/users/$userid/token/$tokenid");
+  }
+  /**
+    * Create user API token.
+    * POST /api2/json/access/users/{userid}/token/{tokenid}
+    * @param string   $userid
+    * @param string   $tokenid
+    * @param array    $data
+  */
+  public function createUserToken($userid, $tokenid, $data = array())
+  {
+      return Request::Request("/access/users/$userid/token/$tokenid", $data, 'POST');
+  }
+  /**
+    * Update user API token.
+    * PUT /api2/json/access/users/{userid}/token/{tokenid}
+    * @param string   $userid
+    * @param string   $tokenid
+    * @param array    $data
+  */
+  public function updateUserToken($userid, $tokenid, $data = array())
+  {
+      return Request::Request("/access/users/$userid/token/$tokenid", $data, 'PUT');
+  }
+  /**
+    * Delete user API token.
+    * DELETE /api2/json/access/users/{userid}/token/{tokenid}
+    * @param string   $userid
+    * @param string   $tokenid
+  */
+  public function deleteUserToken($userid, $tokenid)
+  {
+      return Request::Request("/access/users/$userid/token/$tokenid", null, 'DELETE');
+  }
+  /**
+    * List user TFA entries.
+    * GET /api2/json/access/users/{userid}/tfa
+    * @param string   $userid
+  */
+  public function userTfaEntries($userid)
+  {
+      return Request::Request("/access/users/$userid/tfa");
+  }
+  /**
+    * Unlock user TFA.
+    * PUT /api2/json/access/users/{userid}/unlock-tfa
+    * @param string   $userid
+    * @param array    $data
+  */
+  public function unlockUserTfa($userid, $data = array())
+  {
+      return Request::Request("/access/users/$userid/unlock-tfa", $data, 'PUT');
+  }
+  /**
+    * List TFA users.
+    * GET /api2/json/access/tfa
+  */
+  public function Tfa()
+  {
+      return Request::Request("/access/tfa");
+  }
+  /**
+    * Read TFA configuration for user.
+    * GET /api2/json/access/tfa/{userid}
+    * @param string   $userid
+  */
+  public function TfaUser($userid)
+  {
+      return Request::Request("/access/tfa/$userid");
+  }
+  /**
+    * Add TFA entry for user.
+    * POST /api2/json/access/tfa/{userid}
+    * @param string   $userid
+    * @param array    $data
+  */
+  public function createTfaUser($userid, $data = array())
+  {
+      return Request::Request("/access/tfa/$userid", $data, 'POST');
+  }
+  /**
+    * Read TFA entry for user.
+    * GET /api2/json/access/tfa/{userid}/{id}
+    * @param string   $userid
+    * @param string   $id
+  */
+  public function TfaUserId($userid, $id)
+  {
+      return Request::Request("/access/tfa/$userid/$id");
+  }
+  /**
+    * Update TFA entry for user.
+    * PUT /api2/json/access/tfa/{userid}/{id}
+    * @param string   $userid
+    * @param string   $id
+    * @param array    $data
+  */
+  public function updateTfaUserId($userid, $id, $data = array())
+  {
+      return Request::Request("/access/tfa/$userid/$id", $data, 'PUT');
+  }
+  /**
+    * Delete TFA entry for user.
+    * DELETE /api2/json/access/tfa/{userid}/{id}
+    * @param string   $userid
+    * @param string   $id
+  */
+  public function deleteTfaUserId($userid, $id)
+  {
+      return Request::Request("/access/tfa/$userid/$id", null, 'DELETE');
+  }
+  /**
+    * Read effective permissions.
+    * GET /api2/json/access/permissions
+    * @param array    $data
+  */
+  public function Permissions($data = array())
+  {
+      return Request::Request("/access/permissions", $data);
+  }
+  /**
+    * Read authentication ticket data.
+    * GET /api2/json/access/ticket
+    * @param array    $data
+  */
+  public function Ticket($data = array())
+  {
+      return Request::Request("/access/ticket", $data);
+  }
+  /**
     * Create or verify authentication ticket.
     * POST /api2/json/access/ticket
     * @param array    $data
