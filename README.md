@@ -6,6 +6,7 @@
 - [Proxmox PHP SDK](#proxmox-php-sdk)
   - [Table of Contents](#table-of-contents)
   - [Installation](#installation)
+  - [Development](#development)
   - [Usage](#usage)
     - [Quick Usage](#quick-usage)
     - [Use API Token](#use-api-token)
@@ -61,6 +62,16 @@ To install Proxmox PHP SDK, simply:
 ```bash
 composer require jefersonflus/proxmox-php-sdk @dev
 ```
+
+## Development
+
+```bash
+composer lint
+composer test
+composer validate:apidoc
+```
+
+Release/versioning policy: `RELEASE.md`
 
 ## Usage
 

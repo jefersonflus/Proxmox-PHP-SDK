@@ -18,5 +18,10 @@
             "Proxmox\\": "src/"
         }
     },
+    "scripts": {
+        "lint": "find src -name '*.php' -print0 | xargs -0 -n1 php -l",
+        "test": "php tests/run_contract_tests.php",
+        "validate:apidoc": "node scripts/validate-apidoc.js"
+    },
     "minimum-stability": "dev"
 }
