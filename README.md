@@ -27,13 +27,19 @@
   - [Version](#version)
   - [Cluster](#cluster)
   - [Backup](#backup)
+  - [Backup Info](#backup-info)
+  - [Bulk Action](#bulk-action)
   - [Config](#config)
   - [Firewall](#firewall)
   - [HA](#ha)
   - [Replication](#replication)
+  - [Cluster Ceph](#cluster-ceph)
+  - [Jobs](#jobs)
+  - [Metrics](#metrics)
   - [Pools](#pools)
   - [Storage](#storage)
   - [Nodes](#nodes)
+  - [Capabilities](#capabilities)
   - [Apt](#apt)
   - [Ceph](#ceph)
   - [Disks](#disks)
@@ -373,6 +379,25 @@ $cluster->createBackup($data = array())
 $cluster->BackupId($id)
 $cluster->updateBackup($id, $data = array())
 $cluster->deleteBackup($id)
+$cluster->backupIncludedVolumes($id)
+```
+
+## Backup Info
+
+```php
+$cluster->BackupInfo()
+$cluster->backupInfoNotBackedUp()
+```
+
+## Bulk Action
+
+```php
+$cluster->BulkAction()
+$cluster->BulkActionGuest()
+$cluster->bulkActionGuestStart($data = array())
+$cluster->bulkActionGuestShutdown($data = array())
+$cluster->bulkActionGuestSuspend($data = array())
+$cluster->bulkActionGuestMigrate($data = array())
 ```
 
 ## Config
@@ -419,9 +444,27 @@ $cluster->firewallListRefs()
 ## HA
 
 ```php
+$cluster->Ha()
 $cluster->getHaGroups()
 $cluster->HaGroups($group)
+$cluster->createHaGroup($data = array())
+$cluster->updateHaGroup($group, $data = array())
+$cluster->deleteHaGroup($group)
 $cluster->HaResources()
+$cluster->createHaResource($data = array())
+$cluster->HaResource($sid)
+$cluster->updateHaResource($sid, $data = array())
+$cluster->deleteHaResource($sid, $data = array())
+$cluster->migrateHaResource($sid, $data = array())
+$cluster->relocateHaResource($sid, $data = array())
+$cluster->HaRules($resource = null, $type = null)
+$cluster->createHaRule($data = array())
+$cluster->HaRule($rule)
+$cluster->updateHaRule($rule, $data = array())
+$cluster->deleteHaRule($rule)
+$cluster->HaStatus()
+$cluster->HaStatusCurrent()
+$cluster->HaStatusManagerStatus()
 ```
 
 ## Replication
@@ -432,6 +475,42 @@ $cluster->createReplication($data = array())
 $cluster->replicationId($id)
 $cluster->updateReplication($id, $data = array())
 $cluster->deleteReplication($id)
+```
+
+## Cluster Ceph
+
+```php
+$cluster->Ceph()
+$cluster->CephMetadata($scope = null)
+$cluster->CephStatus()
+$cluster->CephFlags()
+$cluster->setCephFlags($data = array())
+$cluster->CephFlag($flag)
+$cluster->setCephFlag($flag, $data = array())
+```
+
+## Jobs
+
+```php
+$cluster->Jobs()
+$cluster->RealmSyncJobs()
+$cluster->RealmSyncJob($id)
+$cluster->createRealmSyncJob($id, $data = array())
+$cluster->updateRealmSyncJob($id, $data = array())
+$cluster->deleteRealmSyncJob($id)
+$cluster->jobsScheduleAnalyze($schedule = null, $starttime = null, $iterations = null)
+```
+
+## Metrics
+
+```php
+$cluster->Metrics()
+$cluster->MetricsExport($data = array())
+$cluster->MetricsServer()
+$cluster->MetricsServerId($id)
+$cluster->createMetricsServer($id, $data = array())
+$cluster->updateMetricsServer($id, $data = array())
+$cluster->deleteMetricsServer($id)
 ```
 
 ## Pools
@@ -485,6 +564,17 @@ $nodes->createVNCShell($node, $data = array())
 $nodes->VNCWebSocket($node, $port = null, $vncticket = null)
 ```
 
+## Capabilities
+
+```php
+$nodes->Capabilities($node)
+$nodes->capabilitiesQemu($node)
+$nodes->capabilitiesQemuCpu($node)
+$nodes->capabilitiesQemuCpuFlags($node)
+$nodes->capabilitiesQemuMachines($node)
+$nodes->capabilitiesQemuMigration($node)
+```
+
 ## Apt
 
 ```php
@@ -502,23 +592,41 @@ $nodes->Ceph($node)
 $nodes->CephFlags($node)
 $nodes->setCephFlags($node, $flag, $data = array())
 $nodes->unsetCephFlags($node, $flag)
+$nodes->CephMgr($node)
 $nodes->createCephMgr($node, $data = array())
 $nodes->destroyCephMgr($node, $id)
 $nodes->CephMon($node)
 $nodes->createCephMon($node, $data = array())
 $nodes->destroyCephMon($node, $monid)
+$nodes->CephMds($node)
+$nodes->createCephMds($node, $name, $data = array())
+$nodes->destroyCephMds($node, $name)
+$nodes->CephFs($node)
+$nodes->createCephFs($node, $name, $data = array())
 $nodes->CephOsd($node)
 $nodes->createCephOsd($node, $data = array())
 $nodes->destroyCephOsd($node, $osdid)
+$nodes->CephOsdId($node, $osdid)
+$nodes->CephOsdMetadata($node, $osdid)
+$nodes->CephOsdLvInfo($node, $osdid)
+$nodes->CephOsdScrub($node, $osdid, $data = array())
 $nodes->CephOsdIn($node, $osdid, $data = array())
 $nodes->CephOsdOut($node, $osdid, $data = array())
 $nodes->getCephPools($node)
 $nodes->createCephPool($node, $data = array())
-$nodes->destroyCephPool($node)
+$nodes->destroyCephPool($node, $name = null, $data = array())
+$nodes->CephPool($node, $name)
+$nodes->updateCephPool($node, $name, $data = array())
+$nodes->CephPoolStatus($node, $name)
 $nodes->CephConfig($node)
+$nodes->CephConfigDb($node)
+$nodes->CephConfigRaw($node)
+$nodes->CephConfigValue($node, $data = array())
+$nodes->CephCmdSafety($node)
 $nodes->CephCrush($node)
 $nodes->CephDisks($node)
 $nodes->createCephInit($node, $data = array())
+$nodes->CephRestart($node, $data = array())
 $nodes->CephLog($node, $limit = null, $start = null)
 $nodes->CephRules($node)
 $nodes->CephStart($node, $data = array())
@@ -665,7 +773,31 @@ $nodes->qemuStop($node, $vmid, $data = array())
 $nodes->qemuReboot($node, $vmid, $data = array())
 $nodes->qemuSuspend($node, $vmid, $data = array())
 $nodes->qemuAgent($node, $vmid, $data = array())
+$nodes->qemuAgentIndex($node, $vmid, $data = array())
 $nodes->qemuAgentExec($node, $vmid, $data = array())
+$nodes->qemuAgentExecStatus($node, $vmid, $data = array())
+$nodes->qemuAgentFileRead($node, $vmid, $data = array())
+$nodes->qemuAgentFileWrite($node, $vmid, $data = array())
+$nodes->qemuAgentFsfreezeFreeze($node, $vmid, $data = array())
+$nodes->qemuAgentFsfreezeStatus($node, $vmid, $data = array())
+$nodes->qemuAgentFsfreezeThaw($node, $vmid, $data = array())
+$nodes->qemuAgentFstrim($node, $vmid, $data = array())
+$nodes->qemuAgentGetFsinfo($node, $vmid, $data = array())
+$nodes->qemuAgentGetHostName($node, $vmid, $data = array())
+$nodes->qemuAgentGetMemoryBlockInfo($node, $vmid, $data = array())
+$nodes->qemuAgentGetMemoryBlocks($node, $vmid, $data = array())
+$nodes->qemuAgentGetOsinfo($node, $vmid, $data = array())
+$nodes->qemuAgentGetTime($node, $vmid, $data = array())
+$nodes->qemuAgentGetTimezone($node, $vmid, $data = array())
+$nodes->qemuAgentGetUsers($node, $vmid, $data = array())
+$nodes->qemuAgentGetVcpus($node, $vmid, $data = array())
+$nodes->qemuAgentInfo($node, $vmid, $data = array())
+$nodes->qemuAgentNetworkGetInterfaces($node, $vmid, $data = array())
+$nodes->qemuAgentPing($node, $vmid, $data = array())
+$nodes->qemuAgentShutdown($node, $vmid, $data = array())
+$nodes->qemuAgentSuspendDisk($node, $vmid, $data = array())
+$nodes->qemuAgentSuspendHybrid($node, $vmid, $data = array())
+$nodes->qemuAgentSuspendRam($node, $vmid, $data = array())
 $nodes->qemuAgentSetUserPassword($node, $vmid, $data = array())
 $nodes->qemuClone($node, $vmid, $data = array())
 $nodes->qemuConfig($node, $vmid)
@@ -702,11 +834,14 @@ $nodes->replicationStatus($node, $id)
 ```php
 $nodes->Scan($node)
 $nodes->scanGlusterfs($node)
-$nodes->scanIscsi($node)
-$nodes->scanLvm($node)
-$nodes->scanLvmthin($node)
-$nodes->scanUsb($node)
-$nodes->scanZfs($node)
+$nodes->scanNfs($node, $data = array())
+$nodes->scanCifs($node, $data = array())
+$nodes->scanPbs($node, $data = array())
+$nodes->scanIscsi($node, $data = array())
+$nodes->scanLvm($node, $data = array())
+$nodes->scanLvmthin($node, $data = array())
+$nodes->scanUsb($node, $data = array())
+$nodes->scanZfs($node, $data = array())
 ```
 
 ## Service
@@ -731,8 +866,8 @@ $nodes->storageContent($node, $storage, $data = array())
 $nodes->storageContentVolume($node, $storage, $volume)
 $nodes->copyStorageContentVolume($node, $storage, $volume, $data = array())
 $nodes->deleteStorageContentVolume($node, $storage, $volume)
-$nodes->storageRRD($node, $storage = null)
-$nodes->storageRRDdata($node, $storage = null)
+$nodes->storageRRD($node, $storage = null, $ds = null, $timeframe = null, $cf = null)
+$nodes->storageRRDdata($node, $storage = null, $timeframe = null, $cf = null)
 $nodes->storageStatus($node, $storage = null)
 $nodes->storageUpload($node, $storage = null, $data = array())
 ```
