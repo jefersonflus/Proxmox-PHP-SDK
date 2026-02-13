@@ -21,6 +21,60 @@ class Nodes
       return Request::Request("/nodes");
   }
   /**
+    * Node capabilities index.
+    * GET /api2/json/nodes/{node}/capabilities
+    * @param string   $node     The cluster node name.
+  */
+  public function Capabilities($node)
+  {
+      return Request::Request("/nodes/$node/capabilities");
+  }
+  /**
+    * QEMU capabilities index.
+    * GET /api2/json/nodes/{node}/capabilities/qemu
+    * @param string   $node     The cluster node name.
+  */
+  public function capabilitiesQemu($node)
+  {
+      return Request::Request("/nodes/$node/capabilities/qemu");
+  }
+  /**
+    * Get QEMU CPU capabilities.
+    * GET /api2/json/nodes/{node}/capabilities/qemu/cpu
+    * @param string   $node     The cluster node name.
+  */
+  public function capabilitiesQemuCpu($node)
+  {
+      return Request::Request("/nodes/$node/capabilities/qemu/cpu");
+  }
+  /**
+    * Get QEMU CPU flags capabilities.
+    * GET /api2/json/nodes/{node}/capabilities/qemu/cpu-flags
+    * @param string   $node     The cluster node name.
+  */
+  public function capabilitiesQemuCpuFlags($node)
+  {
+      return Request::Request("/nodes/$node/capabilities/qemu/cpu-flags");
+  }
+  /**
+    * Get QEMU machine type capabilities.
+    * GET /api2/json/nodes/{node}/capabilities/qemu/machines
+    * @param string   $node     The cluster node name.
+  */
+  public function capabilitiesQemuMachines($node)
+  {
+      return Request::Request("/nodes/$node/capabilities/qemu/machines");
+  }
+  /**
+    * Get QEMU migration capabilities.
+    * GET /api2/json/nodes/{node}/capabilities/qemu/migration
+    * @param string   $node     The cluster node name.
+  */
+  public function capabilitiesQemuMigration($node)
+  {
+      return Request::Request("/nodes/$node/capabilities/qemu/migration");
+  }
+  /**
     * Directory index for apt (Advanced Package Tool).
     * GET /api2/json/nodes/{node}/apt
     * @param string   $node     The cluster node name.
@@ -112,6 +166,15 @@ class Nodes
       return Request::Request("/cluster/ceph/flags/$flag", ['value' => false], "PUT");
   }
   /**
+    * Get Ceph manager list.
+    * GET /api2/json/nodes/{node}/ceph/mgr
+    * @param string   $node     The cluster node name.
+  */
+  public function CephMgr($node)
+  {
+      return Request::Request("/nodes/$node/ceph/mgr");
+  }
+  /**
     * Create Ceph Manager
     * POST /api2/json/nodes/{node}/ceph/mgr
     * @param string   $node     The cluster node name.
@@ -163,6 +226,56 @@ class Nodes
       return Request::Request("/nodes/$node/ceph/mon/$monid", null, "DELETE");
   }
   /**
+    * Get Ceph metadata server list.
+    * GET /api2/json/nodes/{node}/ceph/mds
+    * @param string   $node     The cluster node name.
+  */
+  public function CephMds($node)
+  {
+      return Request::Request("/nodes/$node/ceph/mds");
+  }
+  /**
+    * Create Ceph metadata server.
+    * POST /api2/json/nodes/{node}/ceph/mds/{name}
+    * @param string   $node     The cluster node name.
+    * @param string   $name     Metadata server ID.
+    * @param array    $data
+  */
+  public function createCephMds($node, $name, $data = array())
+  {
+      return Request::Request("/nodes/$node/ceph/mds/$name", $data, "POST");
+  }
+  /**
+    * Destroy Ceph metadata server.
+    * DELETE /api2/json/nodes/{node}/ceph/mds/{name}
+    * @param string   $node     The cluster node name.
+    * @param string   $name     Metadata server ID.
+  */
+  public function destroyCephMds($node, $name)
+  {
+      return Request::Request("/nodes/$node/ceph/mds/$name", null, "DELETE");
+  }
+  /**
+    * Get Ceph filesystem list.
+    * GET /api2/json/nodes/{node}/ceph/fs
+    * @param string   $node     The cluster node name.
+  */
+  public function CephFs($node)
+  {
+      return Request::Request("/nodes/$node/ceph/fs");
+  }
+  /**
+    * Create Ceph filesystem.
+    * POST /api2/json/nodes/{node}/ceph/fs/{name}
+    * @param string   $node     The cluster node name.
+    * @param string   $name     Filesystem name.
+    * @param array    $data
+  */
+  public function createCephFs($node, $name, $data = array())
+  {
+      return Request::Request("/nodes/$node/ceph/fs/$name", $data, "POST");
+  }
+  /**
     * Get Ceph osd list/tree.
     * GET /api2/json/nodes/{node}/ceph/osd
     * @param string   $node     The cluster node name.
@@ -190,6 +303,47 @@ class Nodes
   public function destroyCephOsd($node, $osdid)
   {
       return Request::Request("/nodes/$node/ceph/osd/$osdid", null, "DELETE");
+  }
+  /**
+    * Read Ceph OSD configuration.
+    * GET /api2/json/nodes/{node}/ceph/osd/{osdid}
+    * @param string   $node     The cluster node name.
+    * @param string   $osdid    OSD ID.
+  */
+  public function CephOsdId($node, $osdid)
+  {
+      return Request::Request("/nodes/$node/ceph/osd/$osdid");
+  }
+  /**
+    * Read Ceph OSD metadata.
+    * GET /api2/json/nodes/{node}/ceph/osd/{osdid}/metadata
+    * @param string   $node     The cluster node name.
+    * @param string   $osdid    OSD ID.
+  */
+  public function CephOsdMetadata($node, $osdid)
+  {
+      return Request::Request("/nodes/$node/ceph/osd/$osdid/metadata");
+  }
+  /**
+    * Read Ceph OSD logical volume info.
+    * GET /api2/json/nodes/{node}/ceph/osd/{osdid}/lv-info
+    * @param string   $node     The cluster node name.
+    * @param string   $osdid    OSD ID.
+  */
+  public function CephOsdLvInfo($node, $osdid)
+  {
+      return Request::Request("/nodes/$node/ceph/osd/$osdid/lv-info");
+  }
+  /**
+    * Trigger Ceph OSD scrub.
+    * POST /api2/json/nodes/{node}/ceph/osd/{osdid}/scrub
+    * @param string   $node     The cluster node name.
+    * @param string   $osdid    OSD ID.
+    * @param array    $data
+  */
+  public function CephOsdScrub($node, $osdid, $data = array())
+  {
+      return Request::Request("/nodes/$node/ceph/osd/$osdid/scrub", $data, "POST");
   }
   /**
     * ceph osd in
@@ -250,6 +404,37 @@ class Nodes
       return Request::Request("/nodes/$node/ceph/pool/$name", $data, "DELETE");
   }
   /**
+    * Read Ceph pool details.
+    * GET /api2/json/nodes/{node}/ceph/pool/{name}
+    * @param string   $node     The cluster node name.
+    * @param string   $name     Pool name.
+  */
+  public function CephPool($node, $name)
+  {
+      return Request::Request("/nodes/$node/ceph/pool/$name");
+  }
+  /**
+    * Update Ceph pool.
+    * PUT /api2/json/nodes/{node}/ceph/pool/{name}
+    * @param string   $node     The cluster node name.
+    * @param string   $name     Pool name.
+    * @param array    $data
+  */
+  public function updateCephPool($node, $name, $data = array())
+  {
+      return Request::Request("/nodes/$node/ceph/pool/$name", $data, "PUT");
+  }
+  /**
+    * Read Ceph pool status.
+    * GET /api2/json/nodes/{node}/ceph/pool/{name}/status
+    * @param string   $node     The cluster node name.
+    * @param string   $name     Pool name.
+  */
+  public function CephPoolStatus($node, $name)
+  {
+      return Request::Request("/nodes/$node/ceph/pool/$name/status");
+  }
+  /**
     * Get Ceph configuration.
     * GET /api2/json/nodes/{node}/ceph/cfg
     * @param string   $node     The cluster node name.
@@ -257,6 +442,43 @@ class Nodes
   public function CephConfig($node)
   {
       return Request::Request("/nodes/$node/ceph/cfg");
+  }
+  /**
+    * Read Ceph config from monitor key/value database.
+    * GET /api2/json/nodes/{node}/ceph/cfg/db
+    * @param string   $node     The cluster node name.
+  */
+  public function CephConfigDb($node)
+  {
+      return Request::Request("/nodes/$node/ceph/cfg/db");
+  }
+  /**
+    * Read Ceph config from raw ceph.conf.
+    * GET /api2/json/nodes/{node}/ceph/cfg/raw
+    * @param string   $node     The cluster node name.
+  */
+  public function CephConfigRaw($node)
+  {
+      return Request::Request("/nodes/$node/ceph/cfg/raw");
+  }
+  /**
+    * Read Ceph config values.
+    * GET /api2/json/nodes/{node}/ceph/cfg/value
+    * @param string   $node     The cluster node name.
+    * @param array    $data
+  */
+  public function CephConfigValue($node, $data = array())
+  {
+      return Request::Request("/nodes/$node/ceph/cfg/value", $data);
+  }
+  /**
+    * Read Ceph command safety status.
+    * GET /api2/json/nodes/{node}/ceph/cmd-safety
+    * @param string   $node     The cluster node name.
+  */
+  public function CephCmdSafety($node)
+  {
+      return Request::Request("/nodes/$node/ceph/cmd-safety");
   }
   /**
     * Get OSD crush map
@@ -285,6 +507,16 @@ class Nodes
   public function createCephInit($node, $data = array())
   {
       return Request::Request("/nodes/$node/ceph/init", $data, "POST");
+  }
+  /**
+    * Restart Ceph services.
+    * POST /api2/json/nodes/{node}/ceph/restart
+    * @param string   $node     The cluster node name.
+    * @param array    $data
+  */
+  public function CephRestart($node, $data = array())
+  {
+      return Request::Request("/nodes/$node/ceph/restart", $data, "POST");
   }
   /**
     * Read ceph log
@@ -1589,15 +1821,279 @@ class Nodes
       return Request::Request("/nodes/$node/qemu/$vmid/agent", $data, 'POST');
   }
   /**
+    * Read Qemu Guest Agent command index.
+    * GET /api2/json/nodes/{node}/qemu/{vmid}/agent
+    * @param string   $node    The cluster node name.
+    * @param integer  $vmid    The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function qemuAgentIndex($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/qemu/$vmid/agent", $data);
+  }
+  /**
     * Execute command via Qemu Guest Agent.
-    * POST /api2/json/nodes/{node}/qemu/{vmid}/status/agent/exec
+    * POST /api2/json/nodes/{node}/qemu/{vmid}/agent/exec
     * @param string   $node    The cluster node name.
     * @param integer  $vmid    The (unique) ID of the VM.
     * @param array    $data
   */
   public function qemuAgentExec($node, $vmid, $data = array())
   {
-    return Request::Request("/nodes/$node/qemu/$vmid/agent/exec", $data, 'POST');
+      return Request::Request("/nodes/$node/qemu/$vmid/agent/exec", $data, 'POST');
+  }
+  /**
+    * Read command status from Qemu Guest Agent exec.
+    * GET /api2/json/nodes/{node}/qemu/{vmid}/agent/exec-status
+    * @param string   $node    The cluster node name.
+    * @param integer  $vmid    The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function qemuAgentExecStatus($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/qemu/$vmid/agent/exec-status", $data);
+  }
+  /**
+    * Read file content via Qemu Guest Agent.
+    * GET /api2/json/nodes/{node}/qemu/{vmid}/agent/file-read
+    * @param string   $node    The cluster node name.
+    * @param integer  $vmid    The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function qemuAgentFileRead($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/qemu/$vmid/agent/file-read", $data);
+  }
+  /**
+    * Write file content via Qemu Guest Agent.
+    * POST /api2/json/nodes/{node}/qemu/{vmid}/agent/file-write
+    * @param string   $node    The cluster node name.
+    * @param integer  $vmid    The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function qemuAgentFileWrite($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/qemu/$vmid/agent/file-write", $data, 'POST');
+  }
+  /**
+    * Freeze guest filesystem.
+    * POST /api2/json/nodes/{node}/qemu/{vmid}/agent/fsfreeze-freeze
+    * @param string   $node    The cluster node name.
+    * @param integer  $vmid    The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function qemuAgentFsfreezeFreeze($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/qemu/$vmid/agent/fsfreeze-freeze", $data, 'POST');
+  }
+  /**
+    * Read guest filesystem freeze status.
+    * POST /api2/json/nodes/{node}/qemu/{vmid}/agent/fsfreeze-status
+    * @param string   $node    The cluster node name.
+    * @param integer  $vmid    The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function qemuAgentFsfreezeStatus($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/qemu/$vmid/agent/fsfreeze-status", $data, 'POST');
+  }
+  /**
+    * Thaw guest filesystem.
+    * POST /api2/json/nodes/{node}/qemu/{vmid}/agent/fsfreeze-thaw
+    * @param string   $node    The cluster node name.
+    * @param integer  $vmid    The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function qemuAgentFsfreezeThaw($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/qemu/$vmid/agent/fsfreeze-thaw", $data, 'POST');
+  }
+  /**
+    * Trigger guest fstrim.
+    * POST /api2/json/nodes/{node}/qemu/{vmid}/agent/fstrim
+    * @param string   $node    The cluster node name.
+    * @param integer  $vmid    The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function qemuAgentFstrim($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/qemu/$vmid/agent/fstrim", $data, 'POST');
+  }
+  /**
+    * Read guest filesystem information.
+    * GET /api2/json/nodes/{node}/qemu/{vmid}/agent/get-fsinfo
+    * @param string   $node    The cluster node name.
+    * @param integer  $vmid    The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function qemuAgentGetFsinfo($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/qemu/$vmid/agent/get-fsinfo", $data);
+  }
+  /**
+    * Read guest host name.
+    * GET /api2/json/nodes/{node}/qemu/{vmid}/agent/get-host-name
+    * @param string   $node    The cluster node name.
+    * @param integer  $vmid    The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function qemuAgentGetHostName($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/qemu/$vmid/agent/get-host-name", $data);
+  }
+  /**
+    * Read guest memory block info.
+    * GET /api2/json/nodes/{node}/qemu/{vmid}/agent/get-memory-block-info
+    * @param string   $node    The cluster node name.
+    * @param integer  $vmid    The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function qemuAgentGetMemoryBlockInfo($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/qemu/$vmid/agent/get-memory-block-info", $data);
+  }
+  /**
+    * Read guest memory blocks.
+    * GET /api2/json/nodes/{node}/qemu/{vmid}/agent/get-memory-blocks
+    * @param string   $node    The cluster node name.
+    * @param integer  $vmid    The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function qemuAgentGetMemoryBlocks($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/qemu/$vmid/agent/get-memory-blocks", $data);
+  }
+  /**
+    * Read guest OS info.
+    * GET /api2/json/nodes/{node}/qemu/{vmid}/agent/get-osinfo
+    * @param string   $node    The cluster node name.
+    * @param integer  $vmid    The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function qemuAgentGetOsinfo($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/qemu/$vmid/agent/get-osinfo", $data);
+  }
+  /**
+    * Read guest time.
+    * GET /api2/json/nodes/{node}/qemu/{vmid}/agent/get-time
+    * @param string   $node    The cluster node name.
+    * @param integer  $vmid    The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function qemuAgentGetTime($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/qemu/$vmid/agent/get-time", $data);
+  }
+  /**
+    * Read guest timezone.
+    * GET /api2/json/nodes/{node}/qemu/{vmid}/agent/get-timezone
+    * @param string   $node    The cluster node name.
+    * @param integer  $vmid    The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function qemuAgentGetTimezone($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/qemu/$vmid/agent/get-timezone", $data);
+  }
+  /**
+    * Read guest users.
+    * GET /api2/json/nodes/{node}/qemu/{vmid}/agent/get-users
+    * @param string   $node    The cluster node name.
+    * @param integer  $vmid    The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function qemuAgentGetUsers($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/qemu/$vmid/agent/get-users", $data);
+  }
+  /**
+    * Read guest vCPU info.
+    * GET /api2/json/nodes/{node}/qemu/{vmid}/agent/get-vcpus
+    * @param string   $node    The cluster node name.
+    * @param integer  $vmid    The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function qemuAgentGetVcpus($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/qemu/$vmid/agent/get-vcpus", $data);
+  }
+  /**
+    * Read guest agent info.
+    * GET /api2/json/nodes/{node}/qemu/{vmid}/agent/info
+    * @param string   $node    The cluster node name.
+    * @param integer  $vmid    The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function qemuAgentInfo($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/qemu/$vmid/agent/info", $data);
+  }
+  /**
+    * Read guest network interfaces.
+    * GET /api2/json/nodes/{node}/qemu/{vmid}/agent/network-get-interfaces
+    * @param string   $node    The cluster node name.
+    * @param integer  $vmid    The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function qemuAgentNetworkGetInterfaces($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/qemu/$vmid/agent/network-get-interfaces", $data);
+  }
+  /**
+    * Ping Qemu Guest Agent.
+    * POST /api2/json/nodes/{node}/qemu/{vmid}/agent/ping
+    * @param string   $node    The cluster node name.
+    * @param integer  $vmid    The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function qemuAgentPing($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/qemu/$vmid/agent/ping", $data, 'POST');
+  }
+  /**
+    * Shutdown via Qemu Guest Agent.
+    * POST /api2/json/nodes/{node}/qemu/{vmid}/agent/shutdown
+    * @param string   $node    The cluster node name.
+    * @param integer  $vmid    The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function qemuAgentShutdown($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/qemu/$vmid/agent/shutdown", $data, 'POST');
+  }
+  /**
+    * Suspend to disk via Qemu Guest Agent.
+    * POST /api2/json/nodes/{node}/qemu/{vmid}/agent/suspend-disk
+    * @param string   $node    The cluster node name.
+    * @param integer  $vmid    The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function qemuAgentSuspendDisk($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/qemu/$vmid/agent/suspend-disk", $data, 'POST');
+  }
+  /**
+    * Suspend hybrid via Qemu Guest Agent.
+    * POST /api2/json/nodes/{node}/qemu/{vmid}/agent/suspend-hybrid
+    * @param string   $node    The cluster node name.
+    * @param integer  $vmid    The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function qemuAgentSuspendHybrid($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/qemu/$vmid/agent/suspend-hybrid", $data, 'POST');
+  }
+  /**
+    * Suspend to RAM via Qemu Guest Agent.
+    * POST /api2/json/nodes/{node}/qemu/{vmid}/agent/suspend-ram
+    * @param string   $node    The cluster node name.
+    * @param integer  $vmid    The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function qemuAgentSuspendRam($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/qemu/$vmid/agent/suspend-ram", $data, 'POST');
   }
   /**
     * Change user password via Qemu Guest Agent.
@@ -1880,49 +2376,84 @@ class Nodes
       throw new ProxmoxException('Endpoint /nodes/{node}/scan/glusterfs is not available in current Proxmox API.');
   }
   /**
+    * Scan NFS server export list.
+    * GET /api2/json/nodes/{node}/scan/nfs
+    * @param string   $node    The cluster node name.
+    * @param array    $data
+  */
+  public function scanNfs($node, $data = array())
+  {
+      return Request::Request("/nodes/$node/scan/nfs", $data);
+  }
+  /**
+    * Scan CIFS server share list.
+    * GET /api2/json/nodes/{node}/scan/cifs
+    * @param string   $node    The cluster node name.
+    * @param array    $data
+  */
+  public function scanCifs($node, $data = array())
+  {
+      return Request::Request("/nodes/$node/scan/cifs", $data);
+  }
+  /**
+    * Scan Proxmox Backup Server namespaces/datastores.
+    * GET /api2/json/nodes/{node}/scan/pbs
+    * @param string   $node    The cluster node name.
+    * @param array    $data
+  */
+  public function scanPbs($node, $data = array())
+  {
+      return Request::Request("/nodes/$node/scan/pbs", $data);
+  }
+  /**
     * Scan remote iSCSI server.
     * GET /api2/json/nodes/{node}/scan/iscsi
     * @param string   $node    The cluster node name.
+    * @param array    $data
   */
-  public function scanIscsi($node)
+  public function scanIscsi($node, $data = array())
   {
-      return Request::Request("/nodes/$node/scan/iscsi");
+      return Request::Request("/nodes/$node/scan/iscsi", $data);
   }
   /**
     * List local LVM volume groups.
     * GET /api2/json/nodes/{node}/scan/lvm
     * @param string   $node    The cluster node name.
+    * @param array    $data
   */
-  public function scanLvm($node)
+  public function scanLvm($node, $data = array())
   {
-      return Request::Request("/nodes/$node/scan/lvm");
+      return Request::Request("/nodes/$node/scan/lvm", $data);
   }
   /**
     * List local LVM Thin Pools.
     * GET /api2/json/nodes/{node}/scan/lvmthin
     * @param string   $node    The cluster node name.
+    * @param array    $data
   */
-  public function scanLvmthin($node)
+  public function scanLvmthin($node, $data = array())
   {
-      return Request::Request("/nodes/$node/scan/lvmthin");
+      return Request::Request("/nodes/$node/scan/lvmthin", $data);
   }
   /**
     * List local USB devices.
     * GET /api2/json/nodes/{node}/hardware/usb
     * @param string   $node    The cluster node name.
+    * @param array    $data
   */
-  public function scanUsb($node)
+  public function scanUsb($node, $data = array())
   {
-      return Request::Request("/nodes/$node/hardware/usb");
+      return Request::Request("/nodes/$node/hardware/usb", $data);
   }
   /**
     * Scan zfs pool list on local node.
     * GET /api2/json/nodes/{node}/scan/zfs
     * @param string   $node    The cluster node name.
+    * @param array    $data
   */
-  public function scanZfs($node)
+  public function scanZfs($node, $data = array())
   {
-      return Request::Request("/nodes/$node/scan/zfs");
+      return Request::Request("/nodes/$node/scan/zfs", $data);
   }
   /**
     * Service list.
@@ -2081,26 +2612,36 @@ class Nodes
     * GET /api2/json/nodes/{node}/storage/{storage}/rrd
     * @param string   $node     The cluster node name.
     * @param string   $storage  The storage identifier.
+    * @param string   $ds       The list of datasources you want to display.
+    * @param string   $timeframe The time frame.
+    * @param string   $cf       Consolidation function.
   */
-  public function storageRRD($node, $storage = null)
+  public function storageRRD($node, $storage = null, $ds = null, $timeframe = null, $cf = null)
   {
       if (empty($storage)) {
           throw new ProxmoxException('Parameter [storage] is required.');
       }
-      return Request::Request("/nodes/$node/storage/$storage/rrd");
+      $optional['ds'] = !empty($ds) ? $ds : null;
+      $optional['timeframe'] = !empty($timeframe) ? $timeframe : null;
+      $optional['cf'] = !empty($cf) ? $cf : null;
+      return Request::Request("/nodes/$node/storage/$storage/rrd", $optional);
   }
   /**
     * Read storage RRD statistics.
     * GET /api2/json/nodes/{node}/storage/{storage}/rrddata
     * @param string   $node     The cluster node name.
     * @param string   $storage  The storage identifier.
+    * @param string   $timeframe The time frame.
+    * @param string   $cf       Consolidation function.
   */
-  public function storageRRDdata($node, $storage = null)
+  public function storageRRDdata($node, $storage = null, $timeframe = null, $cf = null)
   {
       if (empty($storage)) {
           throw new ProxmoxException('Parameter [storage] is required.');
       }
-      return Request::Request("/nodes/$node/storage/$storage/rrddata");
+      $optional['timeframe'] = !empty($timeframe) ? $timeframe : null;
+      $optional['cf'] = !empty($cf) ? $cf : null;
+      return Request::Request("/nodes/$node/storage/$storage/rrddata", $optional);
   }
   /**
     * Read storage status.
