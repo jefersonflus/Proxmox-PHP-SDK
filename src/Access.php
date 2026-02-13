@@ -355,6 +355,32 @@ class Access
       return Request::Request("/access/tfa/$userid/$id", null, 'DELETE');
   }
   /**
+    * OpenID settings index.
+    * GET /api2/json/access/openid
+  */
+  public function Openid()
+  {
+      return Request::Request("/access/openid");
+  }
+  /**
+    * Get OpenID authentication URL.
+    * POST /api2/json/access/openid/auth-url
+    * @param array    $data
+  */
+  public function openidAuthUrl($data = array())
+  {
+      return Request::Request("/access/openid/auth-url", $data, 'POST');
+  }
+  /**
+    * OpenID login.
+    * POST /api2/json/access/openid/login
+    * @param array    $data
+  */
+  public function openidLogin($data = array())
+  {
+      return Request::Request("/access/openid/login", $data, 'POST');
+  }
+  /**
     * Read effective permissions.
     * GET /api2/json/access/permissions
     * @param array    $data
