@@ -66,6 +66,83 @@ class Cluster
       return Request::Request("/cluster/backup/$id", null, 'DELETE');
   }
   /**
+    * Get included volumes for a vzdump job.
+    * GET /api2/json/cluster/backup/{id}/included_volumes
+    * @param string   $id    The job ID.
+  */
+  public function backupIncludedVolumes($id)
+  {
+      return Request::Request("/cluster/backup/$id/included_volumes");
+  }
+  /**
+    * List all backup snapshots included in backup jobs.
+    * GET /api2/json/cluster/backup-info
+  */
+  public function BackupInfo()
+  {
+      return Request::Request("/cluster/backup-info");
+  }
+  /**
+    * List guests not covered by backup jobs.
+    * GET /api2/json/cluster/backup-info/not-backed-up
+  */
+  public function backupInfoNotBackedUp()
+  {
+      return Request::Request("/cluster/backup-info/not-backed-up");
+  }
+  /**
+    * Cluster bulk action index.
+    * GET /api2/json/cluster/bulk-action
+  */
+  public function BulkAction()
+  {
+      return Request::Request("/cluster/bulk-action");
+  }
+  /**
+    * Cluster guest bulk action index.
+    * GET /api2/json/cluster/bulk-action/guest
+  */
+  public function BulkActionGuest()
+  {
+      return Request::Request("/cluster/bulk-action/guest");
+  }
+  /**
+    * Start multiple guests.
+    * POST /api2/json/cluster/bulk-action/guest/start
+    * @param array    $data
+  */
+  public function bulkActionGuestStart($data = array())
+  {
+      return Request::Request("/cluster/bulk-action/guest/start", $data, "POST");
+  }
+  /**
+    * Shutdown multiple guests.
+    * POST /api2/json/cluster/bulk-action/guest/shutdown
+    * @param array    $data
+  */
+  public function bulkActionGuestShutdown($data = array())
+  {
+      return Request::Request("/cluster/bulk-action/guest/shutdown", $data, "POST");
+  }
+  /**
+    * Suspend multiple guests.
+    * POST /api2/json/cluster/bulk-action/guest/suspend
+    * @param array    $data
+  */
+  public function bulkActionGuestSuspend($data = array())
+  {
+      return Request::Request("/cluster/bulk-action/guest/suspend", $data, "POST");
+  }
+  /**
+    * Migrate multiple guests.
+    * POST /api2/json/cluster/bulk-action/guest/migrate
+    * @param array    $data
+  */
+  public function bulkActionGuestMigrate($data = array())
+  {
+      return Request::Request("/cluster/bulk-action/guest/migrate", $data, "POST");
+  }
+  /**
     * Read vzdump backup job definition.
     * GET /api2/json/cluster/config
   */
@@ -342,6 +419,14 @@ class Cluster
       return Request::Request("/cluster/firewall/refs");
   }
   /**
+    * HA manager index.
+    * GET /api2/json/cluster/ha
+  */
+  public function Ha()
+  {
+      return Request::Request("/cluster/ha");
+  }
+  /**
     * Get HA groups.
     * GET /api2/json/cluster/ha/groups
   */
@@ -365,6 +450,165 @@ class Cluster
   public function HaResources()
   {
       return Request::Request("/cluster/ha/resources");
+  }
+  /**
+    * Create HA group.
+    * POST /api2/json/cluster/ha/groups
+    * @param array    $data
+  */
+  public function createHaGroup($data = array())
+  {
+      return Request::Request("/cluster/ha/groups", $data, "POST");
+  }
+  /**
+    * Update HA group.
+    * PUT /api2/json/cluster/ha/groups/{group}
+    * @param string   $group
+    * @param array    $data
+  */
+  public function updateHaGroup($group, $data = array())
+  {
+      return Request::Request("/cluster/ha/groups/$group", $data, "PUT");
+  }
+  /**
+    * Delete HA group.
+    * DELETE /api2/json/cluster/ha/groups/{group}
+    * @param string   $group
+  */
+  public function deleteHaGroup($group)
+  {
+      return Request::Request("/cluster/ha/groups/$group", null, "DELETE");
+  }
+  /**
+    * Create HA resource.
+    * POST /api2/json/cluster/ha/resources
+    * @param array    $data
+  */
+  public function createHaResource($data = array())
+  {
+      return Request::Request("/cluster/ha/resources", $data, "POST");
+  }
+  /**
+    * Read HA resource configuration.
+    * GET /api2/json/cluster/ha/resources/{sid}
+    * @param string   $sid
+  */
+  public function HaResource($sid)
+  {
+      return Request::Request("/cluster/ha/resources/$sid");
+  }
+  /**
+    * Update HA resource configuration.
+    * PUT /api2/json/cluster/ha/resources/{sid}
+    * @param string   $sid
+    * @param array    $data
+  */
+  public function updateHaResource($sid, $data = array())
+  {
+      return Request::Request("/cluster/ha/resources/$sid", $data, "PUT");
+  }
+  /**
+    * Delete HA resource.
+    * DELETE /api2/json/cluster/ha/resources/{sid}
+    * @param string   $sid
+    * @param array    $data
+  */
+  public function deleteHaResource($sid, $data = array())
+  {
+      return Request::Request("/cluster/ha/resources/$sid", $data, "DELETE");
+  }
+  /**
+    * Migrate HA resource.
+    * POST /api2/json/cluster/ha/resources/{sid}/migrate
+    * @param string   $sid
+    * @param array    $data
+  */
+  public function migrateHaResource($sid, $data = array())
+  {
+      return Request::Request("/cluster/ha/resources/$sid/migrate", $data, "POST");
+  }
+  /**
+    * Relocate HA resource.
+    * POST /api2/json/cluster/ha/resources/{sid}/relocate
+    * @param string   $sid
+    * @param array    $data
+  */
+  public function relocateHaResource($sid, $data = array())
+  {
+      return Request::Request("/cluster/ha/resources/$sid/relocate", $data, "POST");
+  }
+  /**
+    * List HA rules.
+    * GET /api2/json/cluster/ha/rules
+    * @param string   $resource
+    * @param string   $type
+  */
+  public function HaRules($resource = null, $type = null)
+  {
+      $optional['resource'] = !empty($resource) ? $resource : null;
+      $optional['type'] = !empty($type) ? $type : null;
+      return Request::Request("/cluster/ha/rules", $optional);
+  }
+  /**
+    * Create HA rule.
+    * POST /api2/json/cluster/ha/rules
+    * @param array    $data
+  */
+  public function createHaRule($data = array())
+  {
+      return Request::Request("/cluster/ha/rules", $data, "POST");
+  }
+  /**
+    * Read HA rule configuration.
+    * GET /api2/json/cluster/ha/rules/{rule}
+    * @param string   $rule
+  */
+  public function HaRule($rule)
+  {
+      return Request::Request("/cluster/ha/rules/$rule");
+  }
+  /**
+    * Update HA rule configuration.
+    * PUT /api2/json/cluster/ha/rules/{rule}
+    * @param string   $rule
+    * @param array    $data
+  */
+  public function updateHaRule($rule, $data = array())
+  {
+      return Request::Request("/cluster/ha/rules/$rule", $data, "PUT");
+  }
+  /**
+    * Delete HA rule.
+    * DELETE /api2/json/cluster/ha/rules/{rule}
+    * @param string   $rule
+  */
+  public function deleteHaRule($rule)
+  {
+      return Request::Request("/cluster/ha/rules/$rule", null, "DELETE");
+  }
+  /**
+    * Read HA manager status.
+    * GET /api2/json/cluster/ha/status
+  */
+  public function HaStatus()
+  {
+      return Request::Request("/cluster/ha/status");
+  }
+  /**
+    * Read current HA service state.
+    * GET /api2/json/cluster/ha/status/current
+  */
+  public function HaStatusCurrent()
+  {
+      return Request::Request("/cluster/ha/status/current");
+  }
+  /**
+    * Read HA manager internals.
+    * GET /api2/json/cluster/ha/status/manager_status
+  */
+  public function HaStatusManagerStatus()
+  {
+      return Request::Request("/cluster/ha/status/manager_status");
   }
   /**
     * List HA resources.
@@ -410,6 +654,202 @@ class Cluster
   public function deleteReplication($id)
   {
       return Request::Request("/cluster/replication/$id", null, "DELETE");
+  }
+  /**
+    * Cluster Ceph index.
+    * GET /api2/json/cluster/ceph
+  */
+  public function Ceph()
+  {
+      return Request::Request("/cluster/ceph");
+  }
+  /**
+    * Read Ceph metadata.
+    * GET /api2/json/cluster/ceph/metadata
+    * @param string   $scope
+  */
+  public function CephMetadata($scope = null)
+  {
+      $optional['scope'] = !empty($scope) ? $scope : null;
+      return Request::Request("/cluster/ceph/metadata", $optional);
+  }
+  /**
+    * Read cluster Ceph status.
+    * GET /api2/json/cluster/ceph/status
+  */
+  public function CephStatus()
+  {
+      return Request::Request("/cluster/ceph/status");
+  }
+  /**
+    * Read all cluster Ceph flags.
+    * GET /api2/json/cluster/ceph/flags
+  */
+  public function CephFlags()
+  {
+      return Request::Request("/cluster/ceph/flags");
+  }
+  /**
+    * Set multiple cluster Ceph flags.
+    * PUT /api2/json/cluster/ceph/flags
+    * @param array    $data
+  */
+  public function setCephFlags($data = array())
+  {
+      return Request::Request("/cluster/ceph/flags", $data, "PUT");
+  }
+  /**
+    * Read one Ceph flag.
+    * GET /api2/json/cluster/ceph/flags/{flag}
+    * @param string   $flag
+  */
+  public function CephFlag($flag)
+  {
+      return Request::Request("/cluster/ceph/flags/$flag");
+  }
+  /**
+    * Set one Ceph flag.
+    * PUT /api2/json/cluster/ceph/flags/{flag}
+    * @param string   $flag
+    * @param array    $data
+  */
+  public function setCephFlag($flag, $data = array())
+  {
+      if (!array_key_exists('value', $data)) {
+          $data['value'] = true;
+      }
+      return Request::Request("/cluster/ceph/flags/$flag", $data, "PUT");
+  }
+  /**
+    * Cluster jobs index.
+    * GET /api2/json/cluster/jobs
+  */
+  public function Jobs()
+  {
+      return Request::Request("/cluster/jobs");
+  }
+  /**
+    * Realm sync jobs index.
+    * GET /api2/json/cluster/jobs/realm-sync
+  */
+  public function RealmSyncJobs()
+  {
+      return Request::Request("/cluster/jobs/realm-sync");
+  }
+  /**
+    * Read realm sync job.
+    * GET /api2/json/cluster/jobs/realm-sync/{id}
+    * @param string   $id
+  */
+  public function RealmSyncJob($id)
+  {
+      return Request::Request("/cluster/jobs/realm-sync/$id");
+  }
+  /**
+    * Create realm sync job.
+    * POST /api2/json/cluster/jobs/realm-sync/{id}
+    * @param string   $id
+    * @param array    $data
+  */
+  public function createRealmSyncJob($id, $data = array())
+  {
+      return Request::Request("/cluster/jobs/realm-sync/$id", $data, "POST");
+  }
+  /**
+    * Update realm sync job.
+    * PUT /api2/json/cluster/jobs/realm-sync/{id}
+    * @param string   $id
+    * @param array    $data
+  */
+  public function updateRealmSyncJob($id, $data = array())
+  {
+      return Request::Request("/cluster/jobs/realm-sync/$id", $data, "PUT");
+  }
+  /**
+    * Delete realm sync job.
+    * DELETE /api2/json/cluster/jobs/realm-sync/{id}
+    * @param string   $id
+  */
+  public function deleteRealmSyncJob($id)
+  {
+      return Request::Request("/cluster/jobs/realm-sync/$id", null, "DELETE");
+  }
+  /**
+    * Analyze a schedule expression.
+    * GET /api2/json/cluster/jobs/schedule-analyze
+    * @param string   $schedule
+    * @param string   $starttime
+    * @param integer  $iterations
+  */
+  public function jobsScheduleAnalyze($schedule = null, $starttime = null, $iterations = null)
+  {
+      $optional['schedule'] = !empty($schedule) ? $schedule : null;
+      $optional['starttime'] = !empty($starttime) ? $starttime : null;
+      $optional['iterations'] = !empty($iterations) ? $iterations : null;
+      return Request::Request("/cluster/jobs/schedule-analyze", $optional);
+  }
+  /**
+    * Metrics configuration index.
+    * GET /api2/json/cluster/metrics
+  */
+  public function Metrics()
+  {
+      return Request::Request("/cluster/metrics");
+  }
+  /**
+    * Export metrics data.
+    * GET /api2/json/cluster/metrics/export
+    * @param array    $data
+  */
+  public function MetricsExport($data = array())
+  {
+      return Request::Request("/cluster/metrics/export", $data);
+  }
+  /**
+    * Metrics server index.
+    * GET /api2/json/cluster/metrics/server
+  */
+  public function MetricsServer()
+  {
+      return Request::Request("/cluster/metrics/server");
+  }
+  /**
+    * Read metrics server configuration.
+    * GET /api2/json/cluster/metrics/server/{id}
+    * @param string   $id
+  */
+  public function MetricsServerId($id)
+  {
+      return Request::Request("/cluster/metrics/server/$id");
+  }
+  /**
+    * Create metrics server configuration.
+    * POST /api2/json/cluster/metrics/server/{id}
+    * @param string   $id
+    * @param array    $data
+  */
+  public function createMetricsServer($id, $data = array())
+  {
+      return Request::Request("/cluster/metrics/server/$id", $data, "POST");
+  }
+  /**
+    * Update metrics server configuration.
+    * PUT /api2/json/cluster/metrics/server/{id}
+    * @param string   $id
+    * @param array    $data
+  */
+  public function updateMetricsServer($id, $data = array())
+  {
+      return Request::Request("/cluster/metrics/server/$id", $data, "PUT");
+  }
+  /**
+    * Delete metrics server configuration.
+    * DELETE /api2/json/cluster/metrics/server/{id}
+    * @param string   $id
+  */
+  public function deleteMetricsServer($id)
+  {
+      return Request::Request("/cluster/metrics/server/$id", null, "DELETE");
   }
   /**
     * Read cluster log
