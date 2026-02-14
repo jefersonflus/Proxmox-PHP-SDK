@@ -56,5 +56,20 @@ function register_access_contract_tests()
         $result = $access->openidLogin($payload);
         assert_call($result, 'POST', '/access/openid/login', $payload);
     });
-}
 
+    run_test('Access::syncDomain maps to POST /access/domains/{realm}/sync', function () {
+        reset_request_client();
+        $access = new \Proxmox\Access();
+        $payload = array('remove-vanished' => 1);
+        $result = $access->syncDomain('pam', $payload);
+        assert_call($result, 'POST', '/access/domains/pam/sync', $payload);
+    });
+
+    run_test('Access::createVncTicket maps to POST /access/vncticket', function () {
+        reset_request_client();
+        $access = new \Proxmox\Access();
+        $payload = array('username' => 'root@pam', 'password' => 'secret');
+        $result = $access->createVncTicket($payload);
+        assert_call($result, 'POST', '/access/vncticket', $payload);
+    });
+}

@@ -95,5 +95,78 @@ function register_nodes_contract_tests()
 
         assert_true($thrown, 'Expected ProxmoxException when storage is missing.');
     });
-}
 
+    run_test('Nodes::Node maps to GET /nodes/{node}', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $result = $nodes->Node('node-a');
+        assert_call($result, 'GET', '/nodes/node-a', null);
+    });
+
+    run_test('Nodes::nodeStatus maps to GET /nodes/{node}/status', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $result = $nodes->nodeStatus('node-a');
+        assert_call($result, 'GET', '/nodes/node-a/status', null);
+    });
+
+    run_test('Nodes::nodeConfig maps to GET /nodes/{node}/config', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $result = $nodes->nodeConfig('node-a');
+        assert_call($result, 'GET', '/nodes/node-a/config', null);
+    });
+
+    run_test('Nodes::updateNodeConfig maps to PUT /nodes/{node}/config', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('description' => 'Node A');
+        $result = $nodes->updateNodeConfig('node-a', $payload);
+        assert_call($result, 'PUT', '/nodes/node-a/config', $payload);
+    });
+
+    run_test('Nodes::AptVersions maps to GET /nodes/{node}/apt/versions', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $result = $nodes->AptVersions('node-a');
+        assert_call($result, 'GET', '/nodes/node-a/apt/versions', null);
+    });
+
+    run_test('Nodes::updateNetwork maps to PUT /nodes/{node}/network', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('digest' => 'abcd1234');
+        $result = $nodes->updateNetwork('node-a', $payload);
+        assert_call($result, 'PUT', '/nodes/node-a/network', $payload);
+    });
+
+    run_test('Nodes::Hosts maps to GET /nodes/{node}/hosts', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $result = $nodes->Hosts('node-a');
+        assert_call($result, 'GET', '/nodes/node-a/hosts', null);
+    });
+
+    run_test('Nodes::createHosts maps to POST /nodes/{node}/hosts', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('data' => '127.0.0.1 localhost');
+        $result = $nodes->createHosts('node-a', $payload);
+        assert_call($result, 'POST', '/nodes/node-a/hosts', $payload);
+    });
+
+    run_test('Nodes::Journal maps to GET /nodes/{node}/journal', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('limit' => 25);
+        $result = $nodes->Journal('node-a', $payload);
+        assert_call($result, 'GET', '/nodes/node-a/journal', $payload);
+    });
+
+    run_test('Nodes::vzdumpDefaults maps to GET /nodes/{node}/vzdump/defaults', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $result = $nodes->vzdumpDefaults('node-a');
+        assert_call($result, 'GET', '/nodes/node-a/vzdump/defaults', null);
+    });
+}

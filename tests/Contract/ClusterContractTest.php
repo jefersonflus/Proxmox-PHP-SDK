@@ -101,5 +101,56 @@ function register_cluster_contract_tests()
         $result = $cluster->sdnRollback($payload);
         assert_call($result, 'POST', '/cluster/sdn/rollback', $payload);
     });
-}
 
+    run_test('Cluster::createConfig maps to POST /cluster/config', function () {
+        reset_request_client();
+        $cluster = new \Proxmox\Cluster();
+        $payload = array('clustername' => 'pve-cluster');
+        $result = $cluster->createConfig($payload);
+        assert_call($result, 'POST', '/cluster/config', $payload);
+    });
+
+    run_test('Cluster::configApiVersion maps to GET /cluster/config/apiversion', function () {
+        reset_request_client();
+        $cluster = new \Proxmox\Cluster();
+        $result = $cluster->configApiVersion();
+        assert_call($result, 'GET', '/cluster/config/apiversion', null);
+    });
+
+    run_test('Cluster::configJoin maps to GET /cluster/config/join', function () {
+        reset_request_client();
+        $cluster = new \Proxmox\Cluster();
+        $result = $cluster->configJoin();
+        assert_call($result, 'GET', '/cluster/config/join', null);
+    });
+
+    run_test('Cluster::createConfigJoin maps to POST /cluster/config/join', function () {
+        reset_request_client();
+        $cluster = new \Proxmox\Cluster();
+        $payload = array('hostname' => 'node-b', 'password' => 'secret');
+        $result = $cluster->createConfigJoin($payload);
+        assert_call($result, 'POST', '/cluster/config/join', $payload);
+    });
+
+    run_test('Cluster::configQdevice maps to GET /cluster/config/qdevice', function () {
+        reset_request_client();
+        $cluster = new \Proxmox\Cluster();
+        $result = $cluster->configQdevice();
+        assert_call($result, 'GET', '/cluster/config/qdevice', null);
+    });
+
+    run_test('Cluster::createConfigNode maps to POST /cluster/config/nodes/{node}', function () {
+        reset_request_client();
+        $cluster = new \Proxmox\Cluster();
+        $payload = array('nodeid' => 2, 'quorum_votes' => 1);
+        $result = $cluster->createConfigNode('node-b', $payload);
+        assert_call($result, 'POST', '/cluster/config/nodes/node-b', $payload);
+    });
+
+    run_test('Cluster::deleteConfigNode maps to DELETE /cluster/config/nodes/{node}', function () {
+        reset_request_client();
+        $cluster = new \Proxmox\Cluster();
+        $result = $cluster->deleteConfigNode('node-b');
+        assert_call($result, 'DELETE', '/cluster/config/nodes/node-b', null);
+    });
+}

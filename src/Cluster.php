@@ -151,12 +151,73 @@ class Cluster
       return Request::Request("/cluster/config");
   }
   /**
+    * Generate new cluster configuration.
+    * POST /api2/json/cluster/config
+    * @param array    $data
+  */
+  public function createConfig($data = array())
+  {
+      return Request::Request("/cluster/config", $data, 'POST');
+  }
+  /**
+    * Return cluster API compatibility version.
+    * GET /api2/json/cluster/config/apiversion
+  */
+  public function configApiVersion()
+  {
+      return Request::Request("/cluster/config/apiversion");
+  }
+  /**
+    * Returns cluster join information.
+    * GET /api2/json/cluster/config/join
+  */
+  public function configJoin()
+  {
+      return Request::Request("/cluster/config/join");
+  }
+  /**
+    * Join an existing cluster.
+    * POST /api2/json/cluster/config/join
+    * @param array    $data
+  */
+  public function createConfigJoin($data = array())
+  {
+      return Request::Request("/cluster/config/join", $data, 'POST');
+  }
+  /**
+    * Get external quorum device status.
+    * GET /api2/json/cluster/config/qdevice
+  */
+  public function configQdevice()
+  {
+      return Request::Request("/cluster/config/qdevice");
+  }
+  /**
     * Corosync node list.
     * GET /api2/json/cluster/config/nodes
   */
   public function listConfigNodes()
   {
       return Request::Request("/cluster/config/nodes");
+  }
+  /**
+    * Add cluster node configuration entry.
+    * POST /api2/json/cluster/config/nodes/{node}
+    * @param string   $node
+    * @param array    $data
+  */
+  public function createConfigNode($node, $data = array())
+  {
+      return Request::Request("/cluster/config/nodes/$node", $data, 'POST');
+  }
+  /**
+    * Remove cluster node configuration entry.
+    * DELETE /api2/json/cluster/config/nodes/{node}
+    * @param string   $node
+  */
+  public function deleteConfigNode($node)
+  {
+      return Request::Request("/cluster/config/nodes/$node", null, 'DELETE');
   }
   /**
     * Get corosync totem protocol settings.

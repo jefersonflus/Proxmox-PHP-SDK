@@ -21,6 +21,43 @@ class Nodes
       return Request::Request("/nodes");
   }
   /**
+    * Read node status.
+    * GET /api2/json/nodes/{node}
+    * @param string   $node     The cluster node name.
+  */
+  public function Node($node)
+  {
+      return Request::Request("/nodes/$node");
+  }
+  /**
+    * Read node status.
+    * GET /api2/json/nodes/{node}/status
+    * @param string   $node     The cluster node name.
+  */
+  public function nodeStatus($node)
+  {
+      return Request::Request("/nodes/$node/status");
+  }
+  /**
+    * Read node configuration.
+    * GET /api2/json/nodes/{node}/config
+    * @param string   $node     The cluster node name.
+  */
+  public function nodeConfig($node)
+  {
+      return Request::Request("/nodes/$node/config");
+  }
+  /**
+    * Set node configuration.
+    * PUT /api2/json/nodes/{node}/config
+    * @param string   $node     The cluster node name.
+    * @param array    $data
+  */
+  public function updateNodeConfig($node, $data = array())
+  {
+      return Request::Request("/nodes/$node/config", $data, "PUT");
+  }
+  /**
     * Node capabilities index.
     * GET /api2/json/nodes/{node}/capabilities
     * @param string   $node     The cluster node name.
@@ -82,6 +119,15 @@ class Nodes
   public function Apt($node)
   {
       return Request::Request("/nodes/$node/apt");
+  }
+  /**
+    * Get package versions known to this node.
+    * GET /api2/json/nodes/{node}/apt/versions
+    * @param string   $node     The cluster node name.
+  */
+  public function AptVersions($node)
+  {
+      return Request::Request("/nodes/$node/apt/versions");
   }
   /**
     * Directory index for apt (Advanced Package Tool).
@@ -1299,6 +1345,16 @@ class Nodes
   public function createNetwork($node, $data = array())
   {
       return Request::Request("/nodes/$node/network", $data, 'POST');
+  }
+  /**
+    * Apply pending network changes.
+    * PUT /api2/json/nodes/{node}/network
+    * @param string   $node     The cluster node name.
+    * @param array    $data
+  */
+  public function updateNetwork($node, $data = array())
+  {
+      return Request::Request("/nodes/$node/network", $data, 'PUT');
   }
   /**
     * Revert network configuration changes.
@@ -2748,6 +2804,15 @@ class Nodes
       return Request::Request("/nodes/$node/vzdump", $data, "POST");
   }
   /**
+    * Get default vzdump backup job options.
+    * GET /api2/json/nodes/{node}/vzdump/defaults
+    * @param string   $node     The cluster node name.
+  */
+  public function vzdumpDefaults($node)
+  {
+      return Request::Request("/nodes/$node/vzdump/defaults");
+  }
+  /**
     * Extract configuration from vzdump backup archive
     * GET /api2/json/nodes/{node}/vzdump/extractconfig
     * @param string   $node     The cluster node name.
@@ -2831,6 +2896,35 @@ class Nodes
   public function Report($node)
   {
       return Request::Request("/nodes/$node/report");
+  }
+  /**
+    * Get host entries managed for this node.
+    * GET /api2/json/nodes/{node}/hosts
+    * @param string   $node     The cluster node name.
+  */
+  public function Hosts($node)
+  {
+      return Request::Request("/nodes/$node/hosts");
+  }
+  /**
+    * Create or update host entries managed for this node.
+    * POST /api2/json/nodes/{node}/hosts
+    * @param string   $node     The cluster node name.
+    * @param array    $data
+  */
+  public function createHosts($node, $data = array())
+  {
+      return Request::Request("/nodes/$node/hosts", $data, "POST");
+  }
+  /**
+    * Read node systemd journal.
+    * GET /api2/json/nodes/{node}/journal
+    * @param string   $node     The cluster node name.
+    * @param array    $data
+  */
+  public function Journal($node, $data = array())
+  {
+      return Request::Request("/nodes/$node/journal", $data);
   }
   /**
     * Read node RRD statistics (returns PNG)

@@ -66,6 +66,16 @@ class Access
       return Request::Request("/access/domains/$realm", null, 'DELETE');
   }
   /**
+    * Sync users and groups from authentication realm.
+    * POST /api2/json/access/domains/{realm}/sync
+    * @param string   $realm   Authentication domain ID
+    * @param array    $data
+  */
+  public function syncDomain($realm, $data = array())
+  {
+      return Request::Request("/access/domains/$realm/sync", $data, 'POST');
+  }
+  /**
     * Get groups
     * GET /api2/json/access/groups
   */
@@ -406,5 +416,14 @@ class Access
   public function createTicket($data = array())
   {
       return Request::Request("/access/ticket", $data, 'POST');
+  }
+  /**
+    * Creates a VNC ticket.
+    * POST /api2/json/access/vncticket
+    * @param array    $data
+  */
+  public function createVncTicket($data = array())
+  {
+      return Request::Request("/access/vncticket", $data, 'POST');
   }
 }
