@@ -1025,6 +1025,16 @@ class Nodes
       return Request::Request("/nodes/$node/lxc/$vmid/firewall/options", $data, 'PUT');
   }
   /**
+    * Lists possible IPSet/Alias reference which are allowed in source/dest properties.
+    * GET /api2/json/nodes/{node}/lxc/{vmid}/firewall/refs
+    * @param string   $node     The cluster node name.
+    * @param integer  $vmid     The (unique) ID of the VM.
+  */
+  public function lxcFirewallRefs($node, $vmid)
+  {
+      return Request::Request("/nodes/$node/lxc/$vmid/firewall/refs");
+  }
+  /**
     * List all snapshots.
     * GET /api2/json/nodes/{node}/lxc/{vmid}/snapshot
     * @param string   $node     The cluster node name.
@@ -1221,6 +1231,26 @@ class Nodes
       return Request::Request("/nodes/$node/lxc/$vmid/config", $data, 'PUT');
   }
   /**
+    * Read network interfaces.
+    * GET /api2/json/nodes/{node}/lxc/{vmid}/interfaces
+    * @param string   $node     The cluster node name.
+    * @param integer  $vmid     The (unique) ID of the VM.
+  */
+  public function lxcInterfaces($node, $vmid)
+  {
+      return Request::Request("/nodes/$node/lxc/$vmid/interfaces");
+  }
+  /**
+    * Get container configuration, including pending changes.
+    * GET /api2/json/nodes/{node}/lxc/{vmid}/pending
+    * @param string   $node     The cluster node name.
+    * @param integer  $vmid     The (unique) ID of the VM.
+  */
+  public function lxcPending($node, $vmid)
+  {
+      return Request::Request("/nodes/$node/lxc/$vmid/pending");
+  }
+  /**
     * Check if feature for virtual machine is available.
     * GET /api2/json/nodes/{node}/lxc/{vmid}/feature
     * @param string   $node     The cluster node name.
@@ -1229,6 +1259,17 @@ class Nodes
   public function lxcFeature($node, $vmid)
   {
       return Request::Request("/nodes/$node/lxc/$vmid/feature");
+  }
+  /**
+    * Get preconditions for migration.
+    * GET /api2/json/nodes/{node}/lxc/{vmid}/migrate
+    * @param string   $node     The cluster node name.
+    * @param integer  $vmid     The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function lxcMigrateInfo($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/lxc/$vmid/migrate", $data);
   }
   /**
     * Migrate the container to another node. Creates a new migration task.
@@ -1240,6 +1281,61 @@ class Nodes
   public function lxcMigrate($node, $vmid, $data = array())
   {
       return Request::Request("/nodes/$node/lxc/$vmid/migrate", $data, 'POST');
+  }
+  /**
+    * Move a rootfs-/mp-volume to a different storage or volume.
+    * POST /api2/json/nodes/{node}/lxc/{vmid}/move_volume
+    * @param string   $node     The cluster node name.
+    * @param integer  $vmid     The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function lxcMoveVolume($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/lxc/$vmid/move_volume", $data, 'POST');
+  }
+  /**
+    * Open a web socket for data transfer by mtunnel.
+    * GET /api2/json/nodes/{node}/lxc/{vmid}/mtunnelwebsocket
+    * @param string   $node     The cluster node name.
+    * @param integer  $vmid     The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function lxcMtunnelwebsocket($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/lxc/$vmid/mtunnelwebsocket", $data);
+  }
+  /**
+    * Migration tunnel endpoint for LXC containers.
+    * POST /api2/json/nodes/{node}/lxc/{vmid}/mtunnel
+    * @param string   $node     The cluster node name.
+    * @param integer  $vmid     The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function lxcMtunnel($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/lxc/$vmid/mtunnel", $data, 'POST');
+  }
+  /**
+    * Migrate container to a remote cluster.
+    * POST /api2/json/nodes/{node}/lxc/{vmid}/remote_migrate
+    * @param string   $node     The cluster node name.
+    * @param integer  $vmid     The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function lxcRemoteMigrate($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/lxc/$vmid/remote_migrate", $data, 'POST');
+  }
+  /**
+    * Creates a TCP terminal proxy.
+    * POST /api2/json/nodes/{node}/lxc/{vmid}/termproxy
+    * @param string   $node     The cluster node name.
+    * @param integer  $vmid     The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function lxcTermproxy($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/lxc/$vmid/termproxy", $data, 'POST');
   }
   /**
     * Resize a container mount point.
@@ -2174,6 +2270,39 @@ class Nodes
       return Request::Request("/nodes/$node/qemu/$vmid/clone", $data, 'POST');
   }
   /**
+    * Generate cloud-init configuration.
+    * GET /api2/json/nodes/{node}/qemu/{vmid}/cloudinit
+    * @param string   $node    The cluster node name.
+    * @param integer  $vmid    The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function qemuCloudinit($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/qemu/$vmid/cloudinit", $data);
+  }
+  /**
+    * Get automatically generated cloud-init config.
+    * GET /api2/json/nodes/{node}/qemu/{vmid}/cloudinit/dump
+    * @param string   $node    The cluster node name.
+    * @param integer  $vmid    The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function qemuCloudinitDump($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/qemu/$vmid/cloudinit/dump", $data);
+  }
+  /**
+    * Regenerate and set cloud-init drive.
+    * PUT /api2/json/nodes/{node}/qemu/{vmid}/cloudinit
+    * @param string   $node    The cluster node name.
+    * @param integer  $vmid    The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function setQemuCloudinit($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/qemu/$vmid/cloudinit", $data, 'PUT');
+  }
+  /**
     * Get current virtual machine configuration. This does not include pending configuration changes (see 'pending' API).
     * GET /api2/json/nodes/{node}/qemu/{vmid}/config
     * @param string   $node    The cluster node name.
@@ -2216,6 +2345,28 @@ class Nodes
       return Request::Request("/nodes/$node/qemu/$vmid/feature");
   }
   /**
+    * Get VM state from QEMU dbus.
+    * POST /api2/json/nodes/{node}/qemu/{vmid}/dbus-vmstate
+    * @param string   $node    The cluster node name.
+    * @param integer  $vmid    The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function qemuDbusVmstate($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/qemu/$vmid/dbus-vmstate", $data, 'POST');
+  }
+  /**
+    * Get preconditions for migration.
+    * GET /api2/json/nodes/{node}/qemu/{vmid}/migrate
+    * @param string   $node    The cluster node name.
+    * @param integer  $vmid    The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function qemuMigrateInfo($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/qemu/$vmid/migrate", $data);
+  }
+  /**
     * Migrate virtual machine. Creates a new migration task.
     * POST /api2/json/nodes/{node}/qemu/{vmid}/migrate
     * @param string   $node    The cluster node name.
@@ -2247,6 +2398,39 @@ class Nodes
   public function qemuMoveDisk($node, $vmid, $data = array())
   {
       return Request::Request("/nodes/$node/qemu/$vmid/move_disk", $data, 'POST');
+  }
+  /**
+    * Open a web socket for data transfer by mtunnel.
+    * GET /api2/json/nodes/{node}/qemu/{vmid}/mtunnelwebsocket
+    * @param string   $node    The cluster node name.
+    * @param integer  $vmid    The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function qemuMtunnelwebsocket($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/qemu/$vmid/mtunnelwebsocket", $data);
+  }
+  /**
+    * Migration tunnel endpoint for QEMU guests.
+    * POST /api2/json/nodes/{node}/qemu/{vmid}/mtunnel
+    * @param string   $node    The cluster node name.
+    * @param integer  $vmid    The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function qemuMtunnel($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/qemu/$vmid/mtunnel", $data, 'POST');
+  }
+  /**
+    * Migrate virtual machine to a remote cluster.
+    * POST /api2/json/nodes/{node}/qemu/{vmid}/remote_migrate
+    * @param string   $node    The cluster node name.
+    * @param integer  $vmid    The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function qemuRemoteMigrate($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/qemu/$vmid/remote_migrate", $data, 'POST');
   }
   /**
     * Get virtual machine configuration, including pending changes.
@@ -2316,6 +2500,17 @@ class Nodes
   public function qemuSpiceproxy($node, $vmid, $data = array())
   {
       return Request::Request("/nodes/$node/qemu/$vmid/spiceproxy", $data, 'POST');
+  }
+  /**
+    * Creates a TCP terminal proxy.
+    * POST /api2/json/nodes/{node}/qemu/{vmid}/termproxy
+    * @param string   $node    The cluster node name.
+    * @param integer  $vmid    The (unique) ID of the VM.
+    * @param array    $data
+  */
+  public function qemuTermproxy($node, $vmid, $data = array())
+  {
+      return Request::Request("/nodes/$node/qemu/$vmid/termproxy", $data, 'POST');
   }
   /**
     * Create a Template.

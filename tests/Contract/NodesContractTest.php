@@ -169,4 +169,145 @@ function register_nodes_contract_tests()
         $result = $nodes->vzdumpDefaults('node-a');
         assert_call($result, 'GET', '/nodes/node-a/vzdump/defaults', null);
     });
+
+    run_test('Nodes::qemuCloudinit maps to GET /nodes/{node}/qemu/{vmid}/cloudinit', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('format' => 'yaml');
+        $result = $nodes->qemuCloudinit('node-a', 100, $payload);
+        assert_call($result, 'GET', '/nodes/node-a/qemu/100/cloudinit', $payload);
+    });
+
+    run_test('Nodes::qemuCloudinitDump maps to GET /nodes/{node}/qemu/{vmid}/cloudinit/dump', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('type' => 'network');
+        $result = $nodes->qemuCloudinitDump('node-a', 100, $payload);
+        assert_call($result, 'GET', '/nodes/node-a/qemu/100/cloudinit/dump', $payload);
+    });
+
+    run_test('Nodes::setQemuCloudinit maps to PUT /nodes/{node}/qemu/{vmid}/cloudinit', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('force' => 1);
+        $result = $nodes->setQemuCloudinit('node-a', 100, $payload);
+        assert_call($result, 'PUT', '/nodes/node-a/qemu/100/cloudinit', $payload);
+    });
+
+    run_test('Nodes::qemuMigrateInfo maps to GET /nodes/{node}/qemu/{vmid}/migrate', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('target' => 'node-b');
+        $result = $nodes->qemuMigrateInfo('node-a', 100, $payload);
+        assert_call($result, 'GET', '/nodes/node-a/qemu/100/migrate', $payload);
+    });
+
+    run_test('Nodes::qemuMtunnelwebsocket maps to GET /nodes/{node}/qemu/{vmid}/mtunnelwebsocket', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('ticket' => 'abc');
+        $result = $nodes->qemuMtunnelwebsocket('node-a', 100, $payload);
+        assert_call($result, 'GET', '/nodes/node-a/qemu/100/mtunnelwebsocket', $payload);
+    });
+
+    run_test('Nodes::qemuMtunnel maps to POST /nodes/{node}/qemu/{vmid}/mtunnel', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('migration_type' => 'secure');
+        $result = $nodes->qemuMtunnel('node-a', 100, $payload);
+        assert_call($result, 'POST', '/nodes/node-a/qemu/100/mtunnel', $payload);
+    });
+
+    run_test('Nodes::qemuRemoteMigrate maps to POST /nodes/{node}/qemu/{vmid}/remote_migrate', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('target-endpoint' => '10.0.0.2');
+        $result = $nodes->qemuRemoteMigrate('node-a', 100, $payload);
+        assert_call($result, 'POST', '/nodes/node-a/qemu/100/remote_migrate', $payload);
+    });
+
+    run_test('Nodes::qemuTermproxy maps to POST /nodes/{node}/qemu/{vmid}/termproxy', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('serial' => 'socket');
+        $result = $nodes->qemuTermproxy('node-a', 100, $payload);
+        assert_call($result, 'POST', '/nodes/node-a/qemu/100/termproxy', $payload);
+    });
+
+    run_test('Nodes::qemuDbusVmstate maps to POST /nodes/{node}/qemu/{vmid}/dbus-vmstate', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('timeout' => 10);
+        $result = $nodes->qemuDbusVmstate('node-a', 100, $payload);
+        assert_call($result, 'POST', '/nodes/node-a/qemu/100/dbus-vmstate', $payload);
+    });
+
+    run_test('Nodes::lxcInterfaces maps to GET /nodes/{node}/lxc/{vmid}/interfaces', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $result = $nodes->lxcInterfaces('node-a', 101);
+        assert_call($result, 'GET', '/nodes/node-a/lxc/101/interfaces', null);
+    });
+
+    run_test('Nodes::lxcPending maps to GET /nodes/{node}/lxc/{vmid}/pending', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $result = $nodes->lxcPending('node-a', 101);
+        assert_call($result, 'GET', '/nodes/node-a/lxc/101/pending', null);
+    });
+
+    run_test('Nodes::lxcMigrateInfo maps to GET /nodes/{node}/lxc/{vmid}/migrate', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('target' => 'node-b');
+        $result = $nodes->lxcMigrateInfo('node-a', 101, $payload);
+        assert_call($result, 'GET', '/nodes/node-a/lxc/101/migrate', $payload);
+    });
+
+    run_test('Nodes::lxcMtunnelwebsocket maps to GET /nodes/{node}/lxc/{vmid}/mtunnelwebsocket', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('ticket' => 'abc');
+        $result = $nodes->lxcMtunnelwebsocket('node-a', 101, $payload);
+        assert_call($result, 'GET', '/nodes/node-a/lxc/101/mtunnelwebsocket', $payload);
+    });
+
+    run_test('Nodes::lxcFirewallRefs maps to GET /nodes/{node}/lxc/{vmid}/firewall/refs', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $result = $nodes->lxcFirewallRefs('node-a', 101);
+        assert_call($result, 'GET', '/nodes/node-a/lxc/101/firewall/refs', null);
+    });
+
+    run_test('Nodes::lxcMoveVolume maps to POST /nodes/{node}/lxc/{vmid}/move_volume', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('volume' => 'rootfs', 'target-storage' => 'local-lvm');
+        $result = $nodes->lxcMoveVolume('node-a', 101, $payload);
+        assert_call($result, 'POST', '/nodes/node-a/lxc/101/move_volume', $payload);
+    });
+
+    run_test('Nodes::lxcMtunnel maps to POST /nodes/{node}/lxc/{vmid}/mtunnel', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('migration_type' => 'secure');
+        $result = $nodes->lxcMtunnel('node-a', 101, $payload);
+        assert_call($result, 'POST', '/nodes/node-a/lxc/101/mtunnel', $payload);
+    });
+
+    run_test('Nodes::lxcRemoteMigrate maps to POST /nodes/{node}/lxc/{vmid}/remote_migrate', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('target-endpoint' => '10.0.0.2');
+        $result = $nodes->lxcRemoteMigrate('node-a', 101, $payload);
+        assert_call($result, 'POST', '/nodes/node-a/lxc/101/remote_migrate', $payload);
+    });
+
+    run_test('Nodes::lxcTermproxy maps to POST /nodes/{node}/lxc/{vmid}/termproxy', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('serial' => 'tty');
+        $result = $nodes->lxcTermproxy('node-a', 101, $payload);
+        assert_call($result, 'POST', '/nodes/node-a/lxc/101/termproxy', $payload);
+    });
 }
