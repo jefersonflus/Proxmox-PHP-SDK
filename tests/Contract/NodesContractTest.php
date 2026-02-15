@@ -310,4 +310,265 @@ function register_nodes_contract_tests()
         $result = $nodes->lxcTermproxy('node-a', 101, $payload);
         assert_call($result, 'POST', '/nodes/node-a/lxc/101/termproxy', $payload);
     });
+
+    run_test('Nodes::disksDirectory maps to GET /nodes/{node}/disks/directory', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('usage-type' => 'images');
+        $result = $nodes->disksDirectory('node-a', $payload);
+        assert_call($result, 'GET', '/nodes/node-a/disks/directory', $payload);
+    });
+
+    run_test('Nodes::createDisksDirectory maps to POST /nodes/{node}/disks/directory', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('name' => 'dir-store', 'device' => '/dev/sdb');
+        $result = $nodes->createDisksDirectory('node-a', $payload);
+        assert_call($result, 'POST', '/nodes/node-a/disks/directory', $payload);
+    });
+
+    run_test('Nodes::deleteDisksDirectoryName maps to DELETE /nodes/{node}/disks/directory/{name}', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $result = $nodes->deleteDisksDirectoryName('node-a', 'dir-store');
+        assert_call($result, 'DELETE', '/nodes/node-a/disks/directory/dir-store', null);
+    });
+
+    run_test('Nodes::disksLvm maps to GET /nodes/{node}/disks/lvm', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('usage-type' => 'images');
+        $result = $nodes->disksLvm('node-a', $payload);
+        assert_call($result, 'GET', '/nodes/node-a/disks/lvm', $payload);
+    });
+
+    run_test('Nodes::createDisksLvm maps to POST /nodes/{node}/disks/lvm', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('name' => 'lvm-store', 'device' => '/dev/sdc');
+        $result = $nodes->createDisksLvm('node-a', $payload);
+        assert_call($result, 'POST', '/nodes/node-a/disks/lvm', $payload);
+    });
+
+    run_test('Nodes::deleteDisksLvmName maps to DELETE /nodes/{node}/disks/lvm/{name}', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $result = $nodes->deleteDisksLvmName('node-a', 'lvm-store');
+        assert_call($result, 'DELETE', '/nodes/node-a/disks/lvm/lvm-store', null);
+    });
+
+    run_test('Nodes::disksLvmthin maps to GET /nodes/{node}/disks/lvmthin', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('usage-type' => 'rootdir');
+        $result = $nodes->disksLvmthin('node-a', $payload);
+        assert_call($result, 'GET', '/nodes/node-a/disks/lvmthin', $payload);
+    });
+
+    run_test('Nodes::createDisksLvmthin maps to POST /nodes/{node}/disks/lvmthin', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('name' => 'thin-store', 'device' => '/dev/sdd');
+        $result = $nodes->createDisksLvmthin('node-a', $payload);
+        assert_call($result, 'POST', '/nodes/node-a/disks/lvmthin', $payload);
+    });
+
+    run_test('Nodes::deleteDisksLvmthinName maps to DELETE /nodes/{node}/disks/lvmthin/{name}', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $result = $nodes->deleteDisksLvmthinName('node-a', 'thin-store');
+        assert_call($result, 'DELETE', '/nodes/node-a/disks/lvmthin/thin-store', null);
+    });
+
+    run_test('Nodes::disksZfs maps to GET /nodes/{node}/disks/zfs', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('usage-type' => 'images');
+        $result = $nodes->disksZfs('node-a', $payload);
+        assert_call($result, 'GET', '/nodes/node-a/disks/zfs', $payload);
+    });
+
+    run_test('Nodes::disksZfsName maps to GET /nodes/{node}/disks/zfs/{name}', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('verbose' => 1);
+        $result = $nodes->disksZfsName('node-a', 'tank', $payload);
+        assert_call($result, 'GET', '/nodes/node-a/disks/zfs/tank', $payload);
+    });
+
+    run_test('Nodes::createDisksZfs maps to POST /nodes/{node}/disks/zfs', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('name' => 'tank', 'devices' => '/dev/sde');
+        $result = $nodes->createDisksZfs('node-a', $payload);
+        assert_call($result, 'POST', '/nodes/node-a/disks/zfs', $payload);
+    });
+
+    run_test('Nodes::deleteDisksZfsName maps to DELETE /nodes/{node}/disks/zfs/{name}', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $result = $nodes->deleteDisksZfsName('node-a', 'tank');
+        assert_call($result, 'DELETE', '/nodes/node-a/disks/zfs/tank', null);
+    });
+
+    run_test('Nodes::disksWipedisk maps to PUT /nodes/{node}/disks/wipedisk', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('disk' => '/dev/sdb', 'uuid' => 1);
+        $result = $nodes->disksWipedisk('node-a', $payload);
+        assert_call($result, 'PUT', '/nodes/node-a/disks/wipedisk', $payload);
+    });
+
+    run_test('Nodes::storageImportMetadata maps to GET /nodes/{node}/storage/{storage}/import-metadata', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('volume' => 'backup/vzdump-qemu-100.vma.zst');
+        $result = $nodes->storageImportMetadata('node-a', 'local', $payload);
+        assert_call($result, 'GET', '/nodes/node-a/storage/local/import-metadata', $payload);
+    });
+
+    run_test('Nodes::storageDownloadUrl maps to POST /nodes/{node}/storage/{storage}/download-url', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('url' => 'https://example.com/image.qcow2', 'content' => 'images');
+        $result = $nodes->storageDownloadUrl('node-a', 'local', $payload);
+        assert_call($result, 'POST', '/nodes/node-a/storage/local/download-url', $payload);
+    });
+
+    run_test('Nodes::storageOciRegistryPull maps to POST /nodes/{node}/storage/{storage}/oci-registry-pull', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('url' => 'docker.io/library/alpine', 'tag' => 'latest');
+        $result = $nodes->storageOciRegistryPull('node-a', 'local', $payload);
+        assert_call($result, 'POST', '/nodes/node-a/storage/local/oci-registry-pull', $payload);
+    });
+
+    run_test('Nodes::storagePrunebackups maps to GET /nodes/{node}/storage/{storage}/prunebackups', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('keep-last' => 3);
+        $result = $nodes->storagePrunebackups('node-a', 'local', $payload);
+        assert_call($result, 'GET', '/nodes/node-a/storage/local/prunebackups', $payload);
+    });
+
+    run_test('Nodes::deleteStoragePrunebackups maps to DELETE /nodes/{node}/storage/{storage}/prunebackups', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('dry-run' => 1);
+        $result = $nodes->deleteStoragePrunebackups('node-a', 'local', $payload);
+        assert_call($result, 'DELETE', '/nodes/node-a/storage/local/prunebackups', $payload);
+    });
+
+    run_test('Nodes::setStorageContentVolume maps to PUT /nodes/{node}/storage/{storage}/content/{volume}', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('notes' => 'updated');
+        $result = $nodes->setStorageContentVolume('node-a', 'local', 'vm-100-disk-0', $payload);
+        assert_call($result, 'PUT', '/nodes/node-a/storage/local/content/vm-100-disk-0', $payload);
+    });
+
+    run_test('Nodes::storageFileRestoreList maps to GET /nodes/{node}/storage/{storage}/file-restore/list', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('archive-name' => 'vzdump-lxc-101.tar.zst', 'filepath' => '/');
+        $result = $nodes->storageFileRestoreList('node-a', 'local', $payload);
+        assert_call($result, 'GET', '/nodes/node-a/storage/local/file-restore/list', $payload);
+    });
+
+    run_test('Nodes::storageFileRestoreDownload maps to GET /nodes/{node}/storage/{storage}/file-restore/download', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('archive-name' => 'vzdump-lxc-101.tar.zst', 'filepath' => '/etc/hosts');
+        $result = $nodes->storageFileRestoreDownload('node-a', 'local', $payload);
+        assert_call($result, 'GET', '/nodes/node-a/storage/local/file-restore/download', $payload);
+    });
+
+    run_test('Nodes::Certificates maps to GET /nodes/{node}/certificates', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $result = $nodes->Certificates('node-a');
+        assert_call($result, 'GET', '/nodes/node-a/certificates', null);
+    });
+
+    run_test('Nodes::certificatesInfo maps to GET /nodes/{node}/certificates/info', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $result = $nodes->certificatesInfo('node-a');
+        assert_call($result, 'GET', '/nodes/node-a/certificates/info', null);
+    });
+
+    run_test('Nodes::certificatesAcme maps to GET /nodes/{node}/certificates/acme', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $result = $nodes->certificatesAcme('node-a');
+        assert_call($result, 'GET', '/nodes/node-a/certificates/acme', null);
+    });
+
+    run_test('Nodes::createCertificatesAcmeCertificate maps to POST /nodes/{node}/certificates/acme/certificate', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('force' => 1);
+        $result = $nodes->createCertificatesAcmeCertificate('node-a', $payload);
+        assert_call($result, 'POST', '/nodes/node-a/certificates/acme/certificate', $payload);
+    });
+
+    run_test('Nodes::updateCertificatesAcmeCertificate maps to PUT /nodes/{node}/certificates/acme/certificate', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('restart' => 1);
+        $result = $nodes->updateCertificatesAcmeCertificate('node-a', $payload);
+        assert_call($result, 'PUT', '/nodes/node-a/certificates/acme/certificate', $payload);
+    });
+
+    run_test('Nodes::deleteCertificatesAcmeCertificate maps to DELETE /nodes/{node}/certificates/acme/certificate', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $result = $nodes->deleteCertificatesAcmeCertificate('node-a');
+        assert_call($result, 'DELETE', '/nodes/node-a/certificates/acme/certificate', null);
+    });
+
+    run_test('Nodes::createCertificatesCustom maps to POST /nodes/{node}/certificates/custom', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('certificates' => 'pem-data', 'key' => 'key-data');
+        $result = $nodes->createCertificatesCustom('node-a', $payload);
+        assert_call($result, 'POST', '/nodes/node-a/certificates/custom', $payload);
+    });
+
+    run_test('Nodes::deleteCertificatesCustom maps to DELETE /nodes/{node}/certificates/custom', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $result = $nodes->deleteCertificatesCustom('node-a');
+        assert_call($result, 'DELETE', '/nodes/node-a/certificates/custom', null);
+    });
+
+    run_test('Nodes::aptRepositories maps to GET /nodes/{node}/apt/repositories', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $result = $nodes->aptRepositories('node-a');
+        assert_call($result, 'GET', '/nodes/node-a/apt/repositories', null);
+    });
+
+    run_test('Nodes::createAptRepository maps to POST /nodes/{node}/apt/repositories', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('handle' => 'pve-no-subscription');
+        $result = $nodes->createAptRepository('node-a', $payload);
+        assert_call($result, 'POST', '/nodes/node-a/apt/repositories', $payload);
+    });
+
+    run_test('Nodes::updateAptRepositories maps to PUT /nodes/{node}/apt/repositories', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('digest' => 'abcd1234');
+        $result = $nodes->updateAptRepositories('node-a', $payload);
+        assert_call($result, 'PUT', '/nodes/node-a/apt/repositories', $payload);
+    });
+
+    run_test('Nodes::deleteSubscription maps to DELETE /nodes/{node}/subscription', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $result = $nodes->deleteSubscription('node-a');
+        assert_call($result, 'DELETE', '/nodes/node-a/subscription', null);
+    });
 }

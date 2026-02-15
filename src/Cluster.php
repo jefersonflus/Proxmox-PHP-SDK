@@ -383,6 +383,37 @@ class Cluster
       return Request::Request("/cluster/firewall/ipset/$name");
   }
   /**
+    * Read IP or Network settings from IPSet.
+    * GET /api2/json/cluster/firewall/ipset/{name}/{cidr}
+    * @param string   $name    IP set name.
+    * @param string   $cidr    Network/IP specification in CIDR format.
+  */
+  public function firewallIpsetNameCidr($name, $cidr)
+  {
+      return Request::Request("/cluster/firewall/ipset/$name/$cidr");
+  }
+  /**
+    * Update IP or Network settings in IPSet.
+    * PUT /api2/json/cluster/firewall/ipset/{name}/{cidr}
+    * @param string   $name    IP set name.
+    * @param string   $cidr    Network/IP specification in CIDR format.
+    * @param array    $data
+  */
+  public function updateFirewallIpsetNameCidr($name, $cidr, $data = array())
+  {
+      return Request::Request("/cluster/firewall/ipset/$name/$cidr", $data, 'PUT');
+  }
+  /**
+    * Remove IP or Network settings from IPSet.
+    * DELETE /api2/json/cluster/firewall/ipset/{name}/{cidr}
+    * @param string   $name    IP set name.
+    * @param string   $cidr    Network/IP specification in CIDR format.
+  */
+  public function deleteFirewallIpsetNameCidr($name, $cidr)
+  {
+      return Request::Request("/cluster/firewall/ipset/$name/$cidr", null, 'DELETE');
+  }
+  /**
     * Add IP or Network to IPSet.
     * GET /api2/json/cluster/firewall/ipset/{name}
     * @param string   $name    IP set name.

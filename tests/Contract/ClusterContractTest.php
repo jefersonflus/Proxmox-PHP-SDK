@@ -153,4 +153,26 @@ function register_cluster_contract_tests()
         $result = $cluster->deleteConfigNode('node-b');
         assert_call($result, 'DELETE', '/cluster/config/nodes/node-b', null);
     });
+
+    run_test('Cluster::firewallIpsetNameCidr maps to GET /cluster/firewall/ipset/{name}/{cidr}', function () {
+        reset_request_client();
+        $cluster = new \Proxmox\Cluster();
+        $result = $cluster->firewallIpsetNameCidr('allow-list', '10.0.0.0/24');
+        assert_call($result, 'GET', '/cluster/firewall/ipset/allow-list/10.0.0.0/24', null);
+    });
+
+    run_test('Cluster::updateFirewallIpsetNameCidr maps to PUT /cluster/firewall/ipset/{name}/{cidr}', function () {
+        reset_request_client();
+        $cluster = new \Proxmox\Cluster();
+        $payload = array('nomatch' => 1);
+        $result = $cluster->updateFirewallIpsetNameCidr('allow-list', '10.0.0.0/24', $payload);
+        assert_call($result, 'PUT', '/cluster/firewall/ipset/allow-list/10.0.0.0/24', $payload);
+    });
+
+    run_test('Cluster::deleteFirewallIpsetNameCidr maps to DELETE /cluster/firewall/ipset/{name}/{cidr}', function () {
+        reset_request_client();
+        $cluster = new \Proxmox\Cluster();
+        $result = $cluster->deleteFirewallIpsetNameCidr('allow-list', '10.0.0.0/24');
+        assert_call($result, 'DELETE', '/cluster/firewall/ipset/allow-list/10.0.0.0/24', null);
+    });
 }

@@ -130,6 +130,35 @@ class Nodes
       return Request::Request("/nodes/$node/apt/versions");
   }
   /**
+    * List configured APT repositories.
+    * GET /api2/json/nodes/{node}/apt/repositories
+    * @param string   $node     The cluster node name.
+  */
+  public function aptRepositories($node)
+  {
+      return Request::Request("/nodes/$node/apt/repositories");
+  }
+  /**
+    * Add APT repository.
+    * POST /api2/json/nodes/{node}/apt/repositories
+    * @param string   $node     The cluster node name.
+    * @param array    $data
+  */
+  public function createAptRepository($node, $data = array())
+  {
+      return Request::Request("/nodes/$node/apt/repositories", $data, "POST");
+  }
+  /**
+    * Update APT repositories configuration.
+    * PUT /api2/json/nodes/{node}/apt/repositories
+    * @param string   $node     The cluster node name.
+    * @param array    $data
+  */
+  public function updateAptRepositories($node, $data = array())
+  {
+      return Request::Request("/nodes/$node/apt/repositories", $data, "PUT");
+  }
+  /**
     * Directory index for apt (Advanced Package Tool).
     * GET /api2/json/nodes/{node}/apt
     * @param string   $node     The cluster node name.
@@ -168,6 +197,81 @@ class Nodes
   public function createAptUpdate($node, $data = array())
   {
       return Request::Request("/nodes/$node/apt/update", $data, "POST");
+  }
+  /**
+    * List node certificates.
+    * GET /api2/json/nodes/{node}/certificates
+    * @param string   $node     The cluster node name.
+  */
+  public function Certificates($node)
+  {
+      return Request::Request("/nodes/$node/certificates");
+  }
+  /**
+    * Get certificate information.
+    * GET /api2/json/nodes/{node}/certificates/info
+    * @param string   $node     The cluster node name.
+  */
+  public function certificatesInfo($node)
+  {
+      return Request::Request("/nodes/$node/certificates/info");
+  }
+  /**
+    * List ACME certificate configuration.
+    * GET /api2/json/nodes/{node}/certificates/acme
+    * @param string   $node     The cluster node name.
+  */
+  public function certificatesAcme($node)
+  {
+      return Request::Request("/nodes/$node/certificates/acme");
+  }
+  /**
+    * Order/renew ACME certificate.
+    * POST /api2/json/nodes/{node}/certificates/acme/certificate
+    * @param string   $node     The cluster node name.
+    * @param array    $data
+  */
+  public function createCertificatesAcmeCertificate($node, $data = array())
+  {
+      return Request::Request("/nodes/$node/certificates/acme/certificate", $data, "POST");
+  }
+  /**
+    * Update ACME certificate settings.
+    * PUT /api2/json/nodes/{node}/certificates/acme/certificate
+    * @param string   $node     The cluster node name.
+    * @param array    $data
+  */
+  public function updateCertificatesAcmeCertificate($node, $data = array())
+  {
+      return Request::Request("/nodes/$node/certificates/acme/certificate", $data, "PUT");
+  }
+  /**
+    * Remove ACME certificate.
+    * DELETE /api2/json/nodes/{node}/certificates/acme/certificate
+    * @param string   $node     The cluster node name.
+  */
+  public function deleteCertificatesAcmeCertificate($node)
+  {
+      return Request::Request("/nodes/$node/certificates/acme/certificate", null, "DELETE");
+  }
+  /**
+    * Upload custom certificate.
+    * POST /api2/json/nodes/{node}/certificates/custom
+    * @param string   $node     The cluster node name.
+    * @param array    $data
+  */
+  public function createCertificatesCustom($node, $data = array())
+  {
+      return Request::Request("/nodes/$node/certificates/custom", $data, "POST");
+  }
+  /**
+    * Remove custom certificate.
+    * DELETE /api2/json/nodes/{node}/certificates/custom
+    * @param string   $node     The cluster node name.
+  */
+  public function deleteCertificatesCustom($node)
+  {
+      return Request::Request("/nodes/$node/certificates/custom", null, "DELETE");
   }
   /**
     * Directory index.
@@ -653,6 +757,147 @@ class Nodes
   {
       $optional['disk'] = !empty($disk) ? $disk : null;
       return Request::Request("/nodes/$node/disks/smart", $optional);
+  }
+  /**
+    * List available devices for directory storage creation.
+    * GET /api2/json/nodes/{node}/disks/directory
+    * @param string   $node     The cluster node name.
+    * @param array    $data
+  */
+  public function disksDirectory($node, $data = array())
+  {
+      return Request::Request("/nodes/$node/disks/directory", $data);
+  }
+  /**
+    * Create a directory storage on a mounted filesystem.
+    * POST /api2/json/nodes/{node}/disks/directory
+    * @param string   $node     The cluster node name.
+    * @param array    $data
+  */
+  public function createDisksDirectory($node, $data = array())
+  {
+      return Request::Request("/nodes/$node/disks/directory", $data, 'POST');
+  }
+  /**
+    * Remove directory storage.
+    * DELETE /api2/json/nodes/{node}/disks/directory/{name}
+    * @param string   $node     The cluster node name.
+    * @param string   $name
+  */
+  public function deleteDisksDirectoryName($node, $name)
+  {
+      return Request::Request("/nodes/$node/disks/directory/$name", null, 'DELETE');
+  }
+  /**
+    * List available devices for LVM storage creation.
+    * GET /api2/json/nodes/{node}/disks/lvm
+    * @param string   $node     The cluster node name.
+    * @param array    $data
+  */
+  public function disksLvm($node, $data = array())
+  {
+      return Request::Request("/nodes/$node/disks/lvm", $data);
+  }
+  /**
+    * Create an LVM storage.
+    * POST /api2/json/nodes/{node}/disks/lvm
+    * @param string   $node     The cluster node name.
+    * @param array    $data
+  */
+  public function createDisksLvm($node, $data = array())
+  {
+      return Request::Request("/nodes/$node/disks/lvm", $data, 'POST');
+  }
+  /**
+    * Remove an LVM storage.
+    * DELETE /api2/json/nodes/{node}/disks/lvm/{name}
+    * @param string   $node     The cluster node name.
+    * @param string   $name
+  */
+  public function deleteDisksLvmName($node, $name)
+  {
+      return Request::Request("/nodes/$node/disks/lvm/$name", null, 'DELETE');
+  }
+  /**
+    * List available devices for LVM-thin storage creation.
+    * GET /api2/json/nodes/{node}/disks/lvmthin
+    * @param string   $node     The cluster node name.
+    * @param array    $data
+  */
+  public function disksLvmthin($node, $data = array())
+  {
+      return Request::Request("/nodes/$node/disks/lvmthin", $data);
+  }
+  /**
+    * Create an LVM-thin storage.
+    * POST /api2/json/nodes/{node}/disks/lvmthin
+    * @param string   $node     The cluster node name.
+    * @param array    $data
+  */
+  public function createDisksLvmthin($node, $data = array())
+  {
+      return Request::Request("/nodes/$node/disks/lvmthin", $data, 'POST');
+  }
+  /**
+    * Remove an LVM-thin storage.
+    * DELETE /api2/json/nodes/{node}/disks/lvmthin/{name}
+    * @param string   $node     The cluster node name.
+    * @param string   $name
+  */
+  public function deleteDisksLvmthinName($node, $name)
+  {
+      return Request::Request("/nodes/$node/disks/lvmthin/$name", null, 'DELETE');
+  }
+  /**
+    * Get list of available devices and pools for ZFS creation.
+    * GET /api2/json/nodes/{node}/disks/zfs
+    * @param string   $node     The cluster node name.
+    * @param array    $data
+  */
+  public function disksZfs($node, $data = array())
+  {
+      return Request::Request("/nodes/$node/disks/zfs", $data);
+  }
+  /**
+    * Get single ZFS pool information.
+    * GET /api2/json/nodes/{node}/disks/zfs/{name}
+    * @param string   $node     The cluster node name.
+    * @param string   $name
+    * @param array    $data
+  */
+  public function disksZfsName($node, $name, $data = array())
+  {
+      return Request::Request("/nodes/$node/disks/zfs/$name", $data);
+  }
+  /**
+    * Create a ZFS storage.
+    * POST /api2/json/nodes/{node}/disks/zfs
+    * @param string   $node     The cluster node name.
+    * @param array    $data
+  */
+  public function createDisksZfs($node, $data = array())
+  {
+      return Request::Request("/nodes/$node/disks/zfs", $data, 'POST');
+  }
+  /**
+    * Remove a ZFS storage.
+    * DELETE /api2/json/nodes/{node}/disks/zfs/{name}
+    * @param string   $node     The cluster node name.
+    * @param string   $name
+  */
+  public function deleteDisksZfsName($node, $name)
+  {
+      return Request::Request("/nodes/$node/disks/zfs/$name", null, 'DELETE');
+  }
+  /**
+    * Wipe a disk.
+    * PUT /api2/json/nodes/{node}/disks/wipedisk
+    * @param string   $node     The cluster node name.
+    * @param array    $data
+  */
+  public function disksWipedisk($node, $data = array())
+  {
+      return Request::Request("/nodes/$node/disks/wipedisk", $data, 'PUT');
   }
   /**
     * Directory index.
@@ -2817,6 +3062,83 @@ class Nodes
       return Request::Request("/nodes/$node/storage/$storage/content");
   }
   /**
+    * Get import metadata from source storage.
+    * GET /api2/json/nodes/{node}/storage/{storage}/import-metadata
+    * @param string   $node     The cluster node name.
+    * @param string   $storage  The storage identifier.
+    * @param array    $data
+  */
+  public function storageImportMetadata($node, $storage, $data = array())
+  {
+      return Request::Request("/nodes/$node/storage/$storage/import-metadata", $data);
+  }
+  /**
+    * Download content from an URL to a storage.
+    * POST /api2/json/nodes/{node}/storage/{storage}/download-url
+    * @param string   $node     The cluster node name.
+    * @param string   $storage  The storage identifier.
+    * @param array    $data
+  */
+  public function storageDownloadUrl($node, $storage, $data = array())
+  {
+      return Request::Request("/nodes/$node/storage/$storage/download-url", $data, 'POST');
+  }
+  /**
+    * Pull container image from OCI registry to storage.
+    * POST /api2/json/nodes/{node}/storage/{storage}/oci-registry-pull
+    * @param string   $node     The cluster node name.
+    * @param string   $storage  The storage identifier.
+    * @param array    $data
+  */
+  public function storageOciRegistryPull($node, $storage, $data = array())
+  {
+      return Request::Request("/nodes/$node/storage/$storage/oci-registry-pull", $data, 'POST');
+  }
+  /**
+    * Get backup prune information for a storage.
+    * GET /api2/json/nodes/{node}/storage/{storage}/prunebackups
+    * @param string   $node     The cluster node name.
+    * @param string   $storage  The storage identifier.
+    * @param array    $data
+  */
+  public function storagePrunebackups($node, $storage, $data = array())
+  {
+      return Request::Request("/nodes/$node/storage/$storage/prunebackups", $data);
+  }
+  /**
+    * Prune backups for a storage.
+    * DELETE /api2/json/nodes/{node}/storage/{storage}/prunebackups
+    * @param string   $node     The cluster node name.
+    * @param string   $storage  The storage identifier.
+    * @param array    $data
+  */
+  public function deleteStoragePrunebackups($node, $storage, $data = array())
+  {
+      return Request::Request("/nodes/$node/storage/$storage/prunebackups", $data, 'DELETE');
+  }
+  /**
+    * List files/folders from a backup for file restore.
+    * GET /api2/json/nodes/{node}/storage/{storage}/file-restore/list
+    * @param string   $node     The cluster node name.
+    * @param string   $storage  The storage identifier.
+    * @param array    $data
+  */
+  public function storageFileRestoreList($node, $storage, $data = array())
+  {
+      return Request::Request("/nodes/$node/storage/$storage/file-restore/list", $data);
+  }
+  /**
+    * Download restored files from backup file-restore.
+    * GET /api2/json/nodes/{node}/storage/{storage}/file-restore/download
+    * @param string   $node     The cluster node name.
+    * @param string   $storage  The storage identifier.
+    * @param array    $data
+  */
+  public function storageFileRestoreDownload($node, $storage, $data = array())
+  {
+      return Request::Request("/nodes/$node/storage/$storage/file-restore/download", $data);
+  }
+  /**
     * Allocate disk images.
     * POST /api2/json/nodes/{node}/storage/{storage}/content
     * @param string   $node     The cluster node name.
@@ -2836,6 +3158,18 @@ class Nodes
   public function storageContentVolume($node, $storage, $volume)
   {
       return Request::Request("/nodes/$node/storage/$storage/content/$volume");
+  }
+  /**
+    * Update volume attributes.
+    * PUT /api2/json/nodes/{node}/storage/{storage}/content/{volume}
+    * @param string   $node     The cluster node name.
+    * @param string   $storage  The storage identifier.
+    * @param string   $volume
+    * @param array    $data
+  */
+  public function setStorageContentVolume($node, $storage, $volume, $data = array())
+  {
+      return Request::Request("/nodes/$node/storage/$storage/content/$volume", $data, 'PUT');
   }
   /**
     * Copy a volume. This is experimental code - do not use.
@@ -3213,6 +3547,15 @@ class Nodes
   public function setSubscription($node, $data = array())
   {
       return Request::Request("/nodes/$node/subscription", $data, "PUT");
+  }
+  /**
+    * Delete subscription key.
+    * DELETE /api2/json/nodes/{node}/subscription
+    * @param string   $node     The cluster node name.
+  */
+  public function deleteSubscription($node)
+  {
+      return Request::Request("/nodes/$node/subscription", null, "DELETE");
   }
   /**
     * Read system log
