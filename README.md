@@ -2,19 +2,25 @@
 
 # Proxmox PHP SDK
 
-## API Coverage
+## Requirements
 
-Validation against official Proxmox `apidoc.js` (2026-02-15):
+### Minimum
 
-- `official_pairs=646`
-- `implemented_pairs=646`
-- `missing_pairs=0`
-- `mismatches=0`
-- `invalid_method_literals=0`
+- PHP 7.4
+- PHP extension `ext-curl`
+- Composer 2.x
+
+### Recommended
+
+- PHP 8.2 or newer
+- Composer 2.7 or newer
+- Node.js 20 or newer (for `composer validate:apidoc`)
 
 ## Table of Contents
 - [Proxmox PHP SDK](#proxmox-php-sdk)
-  - [API Coverage](#api-coverage)
+  - [Requirements](#requirements)
+    - [Minimum](#minimum)
+    - [Recommended](#recommended)
   - [Table of Contents](#table-of-contents)
   - [Installation](#installation)
   - [Development](#development)
