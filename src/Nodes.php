@@ -2952,6 +2952,198 @@ class Nodes
       return Request::Request("/nodes/$node/scan/zfs", $data);
   }
   /**
+    * SDN index.
+    * GET /api2/json/nodes/{node}/sdn
+    * @param string   $node    The cluster node name.
+    * @param array    $data
+  */
+  public function sdn($node, $data = array())
+  {
+      return Request::Request("/nodes/$node/sdn", $data);
+  }
+  /**
+    * Read SDN fabric information.
+    * GET /api2/json/nodes/{node}/sdn/fabrics/{fabric}
+    * @param string   $node    The cluster node name.
+    * @param string   $fabric
+    * @param array    $data
+  */
+  public function sdnFabricsFabric($node, $fabric, $data = array())
+  {
+      return Request::Request("/nodes/$node/sdn/fabrics/$fabric", $data);
+  }
+  /**
+    * List fabric interfaces.
+    * GET /api2/json/nodes/{node}/sdn/fabrics/{fabric}/interfaces
+    * @param string   $node    The cluster node name.
+    * @param string   $fabric
+    * @param array    $data
+  */
+  public function sdnFabricsFabricInterfaces($node, $fabric, $data = array())
+  {
+      return Request::Request("/nodes/$node/sdn/fabrics/$fabric/interfaces", $data);
+  }
+  /**
+    * List fabric neighbors.
+    * GET /api2/json/nodes/{node}/sdn/fabrics/{fabric}/neighbors
+    * @param string   $node    The cluster node name.
+    * @param string   $fabric
+    * @param array    $data
+  */
+  public function sdnFabricsFabricNeighbors($node, $fabric, $data = array())
+  {
+      return Request::Request("/nodes/$node/sdn/fabrics/$fabric/neighbors", $data);
+  }
+  /**
+    * List fabric routes.
+    * GET /api2/json/nodes/{node}/sdn/fabrics/{fabric}/routes
+    * @param string   $node    The cluster node name.
+    * @param string   $fabric
+    * @param array    $data
+  */
+  public function sdnFabricsFabricRoutes($node, $fabric, $data = array())
+  {
+      return Request::Request("/nodes/$node/sdn/fabrics/$fabric/routes", $data);
+  }
+  /**
+    * Read SDN VNet information.
+    * GET /api2/json/nodes/{node}/sdn/vnets/{vnet}
+    * @param string   $node    The cluster node name.
+    * @param string   $vnet
+    * @param array    $data
+  */
+  public function sdnVnetsVnet($node, $vnet, $data = array())
+  {
+      return Request::Request("/nodes/$node/sdn/vnets/$vnet", $data);
+  }
+  /**
+    * Read SDN VNet mac-vrf information.
+    * GET /api2/json/nodes/{node}/sdn/vnets/{vnet}/mac-vrf
+    * @param string   $node    The cluster node name.
+    * @param string   $vnet
+    * @param array    $data
+  */
+  public function sdnVnetsVnetMacVrf($node, $vnet, $data = array())
+  {
+      return Request::Request("/nodes/$node/sdn/vnets/$vnet/mac-vrf", $data);
+  }
+  /**
+    * List SDN zones.
+    * GET /api2/json/nodes/{node}/sdn/zones
+    * @param string   $node    The cluster node name.
+    * @param array    $data
+  */
+  public function sdnZones($node, $data = array())
+  {
+      return Request::Request("/nodes/$node/sdn/zones", $data);
+  }
+  /**
+    * Read SDN zone information.
+    * GET /api2/json/nodes/{node}/sdn/zones/{zone}
+    * @param string   $node    The cluster node name.
+    * @param string   $zone
+    * @param array    $data
+  */
+  public function sdnZonesZone($node, $zone, $data = array())
+  {
+      return Request::Request("/nodes/$node/sdn/zones/$zone", $data);
+  }
+  /**
+    * List SDN zone bridges.
+    * GET /api2/json/nodes/{node}/sdn/zones/{zone}/bridges
+    * @param string   $node    The cluster node name.
+    * @param string   $zone
+    * @param array    $data
+  */
+  public function sdnZonesZoneBridges($node, $zone, $data = array())
+  {
+      return Request::Request("/nodes/$node/sdn/zones/$zone/bridges", $data);
+  }
+  /**
+    * List SDN zone content.
+    * GET /api2/json/nodes/{node}/sdn/zones/{zone}/content
+    * @param string   $node    The cluster node name.
+    * @param string   $zone
+    * @param array    $data
+  */
+  public function sdnZonesZoneContent($node, $zone, $data = array())
+  {
+      return Request::Request("/nodes/$node/sdn/zones/$zone/content", $data);
+  }
+  /**
+    * Read SDN zone ip-vrf details.
+    * GET /api2/json/nodes/{node}/sdn/zones/{zone}/ip-vrf
+    * @param string   $node    The cluster node name.
+    * @param string   $zone
+    * @param array    $data
+  */
+  public function sdnZonesZoneIpVrf($node, $zone, $data = array())
+  {
+      return Request::Request("/nodes/$node/sdn/zones/$zone/ip-vrf", $data);
+  }
+  /**
+    * Hardware index.
+    * GET /api2/json/nodes/{node}/hardware
+    * @param string   $node    The cluster node name.
+    * @param array    $data
+  */
+  public function hardware($node, $data = array())
+  {
+      return Request::Request("/nodes/$node/hardware", $data);
+  }
+  /**
+    * List PCI devices.
+    * GET /api2/json/nodes/{node}/hardware/pci
+    * @param string   $node    The cluster node name.
+    * @param array    $data
+  */
+  public function hardwarePci($node, $data = array())
+  {
+      return Request::Request("/nodes/$node/hardware/pci", $data);
+  }
+  /**
+    * Get single PCI device details.
+    * GET /api2/json/nodes/{node}/hardware/pci/{pciid}
+    * @param string   $node    The cluster node name.
+    * @param string   $pciid
+    * @param array    $data
+  */
+  public function hardwarePciPciid($node, $pciid, $data = array())
+  {
+      return Request::Request("/nodes/$node/hardware/pci/$pciid", $data);
+  }
+  /**
+    * List mediated devices for a PCI device.
+    * GET /api2/json/nodes/{node}/hardware/pci/{pciid}/mdev
+    * @param string   $node    The cluster node name.
+    * @param string   $pciid
+    * @param array    $data
+  */
+  public function hardwarePciPciidMdev($node, $pciid, $data = array())
+  {
+      return Request::Request("/nodes/$node/hardware/pci/$pciid/mdev", $data);
+  }
+  /**
+    * Query metadata for an URL.
+    * GET /api2/json/nodes/{node}/query-url-metadata
+    * @param string   $node    The cluster node name.
+    * @param array    $data
+  */
+  public function queryUrlMetadata($node, $data = array())
+  {
+      return Request::Request("/nodes/$node/query-url-metadata", $data);
+  }
+  /**
+    * Query OCI repository tags.
+    * GET /api2/json/nodes/{node}/query-oci-repo-tags
+    * @param string   $node    The cluster node name.
+    * @param array    $data
+  */
+  public function queryOciRepoTags($node, $data = array())
+  {
+      return Request::Request("/nodes/$node/query-oci-repo-tags", $data);
+  }
+  /**
     * Service list.
     * GET /api2/json/nodes/{node}/services
     * @param string   $node    The cluster node name.

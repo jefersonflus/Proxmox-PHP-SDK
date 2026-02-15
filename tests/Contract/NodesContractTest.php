@@ -571,4 +571,132 @@ function register_nodes_contract_tests()
         $result = $nodes->deleteSubscription('node-a');
         assert_call($result, 'DELETE', '/nodes/node-a/subscription', null);
     });
+
+    run_test('Nodes::sdn maps to GET /nodes/{node}/sdn', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $result = $nodes->sdn('node-a');
+        assert_call($result, 'GET', '/nodes/node-a/sdn', array());
+    });
+
+    run_test('Nodes::sdnFabricsFabric maps to GET /nodes/{node}/sdn/fabrics/{fabric}', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $result = $nodes->sdnFabricsFabric('node-a', 'fabric-a');
+        assert_call($result, 'GET', '/nodes/node-a/sdn/fabrics/fabric-a', array());
+    });
+
+    run_test('Nodes::sdnFabricsFabricInterfaces maps to GET /nodes/{node}/sdn/fabrics/{fabric}/interfaces', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $result = $nodes->sdnFabricsFabricInterfaces('node-a', 'fabric-a');
+        assert_call($result, 'GET', '/nodes/node-a/sdn/fabrics/fabric-a/interfaces', array());
+    });
+
+    run_test('Nodes::sdnFabricsFabricNeighbors maps to GET /nodes/{node}/sdn/fabrics/{fabric}/neighbors', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $result = $nodes->sdnFabricsFabricNeighbors('node-a', 'fabric-a');
+        assert_call($result, 'GET', '/nodes/node-a/sdn/fabrics/fabric-a/neighbors', array());
+    });
+
+    run_test('Nodes::sdnFabricsFabricRoutes maps to GET /nodes/{node}/sdn/fabrics/{fabric}/routes', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $result = $nodes->sdnFabricsFabricRoutes('node-a', 'fabric-a');
+        assert_call($result, 'GET', '/nodes/node-a/sdn/fabrics/fabric-a/routes', array());
+    });
+
+    run_test('Nodes::sdnVnetsVnet maps to GET /nodes/{node}/sdn/vnets/{vnet}', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $result = $nodes->sdnVnetsVnet('node-a', 'blue-net');
+        assert_call($result, 'GET', '/nodes/node-a/sdn/vnets/blue-net', array());
+    });
+
+    run_test('Nodes::sdnVnetsVnetMacVrf maps to GET /nodes/{node}/sdn/vnets/{vnet}/mac-vrf', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $result = $nodes->sdnVnetsVnetMacVrf('node-a', 'blue-net');
+        assert_call($result, 'GET', '/nodes/node-a/sdn/vnets/blue-net/mac-vrf', array());
+    });
+
+    run_test('Nodes::sdnZones maps to GET /nodes/{node}/sdn/zones', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $result = $nodes->sdnZones('node-a');
+        assert_call($result, 'GET', '/nodes/node-a/sdn/zones', array());
+    });
+
+    run_test('Nodes::sdnZonesZone maps to GET /nodes/{node}/sdn/zones/{zone}', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $result = $nodes->sdnZonesZone('node-a', 'zone-a');
+        assert_call($result, 'GET', '/nodes/node-a/sdn/zones/zone-a', array());
+    });
+
+    run_test('Nodes::sdnZonesZoneBridges maps to GET /nodes/{node}/sdn/zones/{zone}/bridges', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $result = $nodes->sdnZonesZoneBridges('node-a', 'zone-a');
+        assert_call($result, 'GET', '/nodes/node-a/sdn/zones/zone-a/bridges', array());
+    });
+
+    run_test('Nodes::sdnZonesZoneContent maps to GET /nodes/{node}/sdn/zones/{zone}/content', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $result = $nodes->sdnZonesZoneContent('node-a', 'zone-a');
+        assert_call($result, 'GET', '/nodes/node-a/sdn/zones/zone-a/content', array());
+    });
+
+    run_test('Nodes::sdnZonesZoneIpVrf maps to GET /nodes/{node}/sdn/zones/{zone}/ip-vrf', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $result = $nodes->sdnZonesZoneIpVrf('node-a', 'zone-a');
+        assert_call($result, 'GET', '/nodes/node-a/sdn/zones/zone-a/ip-vrf', array());
+    });
+
+    run_test('Nodes::hardware maps to GET /nodes/{node}/hardware', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $result = $nodes->hardware('node-a');
+        assert_call($result, 'GET', '/nodes/node-a/hardware', array());
+    });
+
+    run_test('Nodes::hardwarePci maps to GET /nodes/{node}/hardware/pci', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $result = $nodes->hardwarePci('node-a');
+        assert_call($result, 'GET', '/nodes/node-a/hardware/pci', array());
+    });
+
+    run_test('Nodes::hardwarePciPciid maps to GET /nodes/{node}/hardware/pci/{pciid}', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $result = $nodes->hardwarePciPciid('node-a', '0000:01:00.0');
+        assert_call($result, 'GET', '/nodes/node-a/hardware/pci/0000:01:00.0', array());
+    });
+
+    run_test('Nodes::hardwarePciPciidMdev maps to GET /nodes/{node}/hardware/pci/{pciid}/mdev', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $result = $nodes->hardwarePciPciidMdev('node-a', '0000:01:00.0');
+        assert_call($result, 'GET', '/nodes/node-a/hardware/pci/0000:01:00.0/mdev', array());
+    });
+
+    run_test('Nodes::queryUrlMetadata maps to GET /nodes/{node}/query-url-metadata', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('url' => 'https://example.com/image.qcow2');
+        $result = $nodes->queryUrlMetadata('node-a', $payload);
+        assert_call($result, 'GET', '/nodes/node-a/query-url-metadata', $payload);
+    });
+
+    run_test('Nodes::queryOciRepoTags maps to GET /nodes/{node}/query-oci-repo-tags', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('repository' => 'docker.io/library/alpine');
+        $result = $nodes->queryOciRepoTags('node-a', $payload);
+        assert_call($result, 'GET', '/nodes/node-a/query-oci-repo-tags', $payload);
+    });
 }
