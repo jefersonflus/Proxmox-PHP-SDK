@@ -3692,6 +3692,36 @@ class Nodes
       return Request::Request("/nodes/$node/startall", $data, "POST");
   }
   /**
+    * Suspend all VMs and containers.
+    * POST /api2/json/nodes/{node}/suspendall
+    * @param string   $node     The cluster node name.
+    * @param array    $data
+  */
+  public function SuspendAll($node, $data = array())
+  {
+      return Request::Request("/nodes/$node/suspendall", $data, "POST");
+  }
+  /**
+    * Trigger Wake-on-LAN packet.
+    * POST /api2/json/nodes/{node}/wakeonlan
+    * @param string   $node     The cluster node name.
+    * @param array    $data
+  */
+  public function WakeOnLan($node, $data = array())
+  {
+      return Request::Request("/nodes/$node/wakeonlan", $data, "POST");
+  }
+  /**
+    * Creates a TCP terminal proxy.
+    * POST /api2/json/nodes/{node}/termproxy
+    * @param string   $node     The cluster node name.
+    * @param array    $data
+  */
+  public function Termproxy($node, $data = array())
+  {
+      return Request::Request("/nodes/$node/termproxy", $data, "POST");
+  }
+  /**
     * Reboot or shutdown a node
     * POST /api2/json/nodes/{node}/status
     * @param string   $node     The cluster node name.

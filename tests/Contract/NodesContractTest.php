@@ -699,4 +699,28 @@ function register_nodes_contract_tests()
         $result = $nodes->queryOciRepoTags('node-a', $payload);
         assert_call($result, 'GET', '/nodes/node-a/query-oci-repo-tags', $payload);
     });
+
+    run_test('Nodes::Termproxy maps to POST /nodes/{node}/termproxy', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('cmd' => 'login');
+        $result = $nodes->Termproxy('node-a', $payload);
+        assert_call($result, 'POST', '/nodes/node-a/termproxy', $payload);
+    });
+
+    run_test('Nodes::SuspendAll maps to POST /nodes/{node}/suspendall', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('vms' => '100,101');
+        $result = $nodes->SuspendAll('node-a', $payload);
+        assert_call($result, 'POST', '/nodes/node-a/suspendall', $payload);
+    });
+
+    run_test('Nodes::WakeOnLan maps to POST /nodes/{node}/wakeonlan', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('mac' => 'AA:BB:CC:DD:EE:FF');
+        $result = $nodes->WakeOnLan('node-a', $payload);
+        assert_call($result, 'POST', '/nodes/node-a/wakeonlan', $payload);
+    });
 }
