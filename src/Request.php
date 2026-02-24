@@ -119,8 +119,11 @@ class Request {
         # We need to json_encode body to be compatible with endpoints that can receive some parameters as array of strings.
         # e.g.: "command" parameter in agent/exec. Source: https://pve.proxmox.com/pve-docs/api-viewer/#/nodes/{node}/qemu/{vmid}/agent/exec
         # Otherwise, we can only send command like "ls" but not "ls -l" as ["ls","-l"]. Noticed also that the API responds faster with JSON encoded bodies.
-        self::$Client->setHeader('Content-Type', 'application/json');
-        return self::$Client->post($api, json_encode($params));
+        if(count($params)){
+  			  self::$Client->setHeader('Content-Type', 'application/json');
+  			  return self::$Client->post($api, json_encode($params));
+  		  }
+  		  return self::$Client->post($api, '{}');
         break;
       case "DELETE":
         self::$Client->removeHeader('Content-Length');
