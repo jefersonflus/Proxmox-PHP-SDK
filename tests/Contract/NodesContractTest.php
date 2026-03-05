@@ -42,6 +42,27 @@ function register_nodes_contract_tests()
         assert_call($result, 'GET', '/nodes/node-a/qemu/100/agent/exec-status', $payload);
     });
 
+    run_test('Nodes::qemuAgentExec sends JSON body for command arrays', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+        $payload = array('command' => array('ls', '-l'));
+        $result = $nodes->qemuAgentExec('node-a', 100, $payload);
+        assert_call($result, 'POST', '/nodes/node-a/qemu/100/agent/exec', json_encode($payload));
+        assert_header($result, 'Content-Type', 'application/json');
+    });
+
+    run_test('Nodes::qemuAgentExec JSON header does not leak to regular POST calls', function () {
+        reset_request_client();
+        $nodes = new \Proxmox\Nodes();
+
+        $nodes->qemuAgentExec('node-a', 100, array('command' => array('ls', '-l')));
+
+        $payload = array('timeout' => 30);
+        $result = $nodes->qemuAgentShutdown('node-a', 100, $payload);
+        assert_call($result, 'POST', '/nodes/node-a/qemu/100/agent/shutdown', $payload);
+        assert_true(!isset($result->headers['Content-Type']), 'Content-Type header leaked to non-JSON POST request.');
+    });
+
     run_test('Nodes::qemuAgentShutdown maps to POST /nodes/{node}/qemu/{vmid}/agent/shutdown', function () {
         reset_request_client();
         $nodes = new \Proxmox\Nodes();

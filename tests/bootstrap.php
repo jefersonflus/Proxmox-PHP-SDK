@@ -57,6 +57,7 @@ class Curl
             'method' => $method,
             'url' => $url,
             'params' => $params,
+            'headers' => $this->headers,
         );
 
         return $this->lastRequest;
@@ -139,6 +140,13 @@ function assert_call($response, $method, $path, $params = null, $checkParams = t
     }
 }
 
+function assert_header($response, $headerName, $expectedValue)
+{
+    $headers = isset($response->headers) && is_array($response->headers) ? $response->headers : array();
+    $actual = isset($headers[$headerName]) ? $headers[$headerName] : null;
+    assert_same($expectedValue, $actual, "Unexpected value for header '{$headerName}'.");
+}
+
 function run_test($name, $callback)
 {
     $GLOBALS['__contract_tests_total']++;
@@ -173,4 +181,3 @@ function finish_contract_suite()
         exit(1);
     }
 }
-

@@ -113,9 +113,21 @@ class Request {
         return self::$Client->get($api, $params);
         break;
       case "PUT":
+        if (self::shouldSendJsonBody($params)) {
+          self::$Client->setHeader('Content-Type', 'application/json');
+          $response = self::$Client->put($api, json_encode($params));
+          self::$Client->removeHeader('Content-Type');
+          return $response;
+        }
         return self::$Client->put($api, $params);
         break;
       case "POST":
+        if (self::shouldSendJsonBody($params)) {
+          self::$Client->setHeader('Content-Type', 'application/json');
+          $response = self::$Client->post($api, json_encode($params));
+          self::$Client->removeHeader('Content-Type');
+          return $response;
+        }
         return self::$Client->post($api, $params);
         break;
       case "DELETE":
@@ -125,5 +137,56 @@ class Request {
       default:
         throw new ProxmoxException('HTTP Request method not allowed.');
     }
+  }
+
+  /**
+   * Send JSON body when payload contains nested values that cannot be represented
+   * as regular x-www-form-urlencoded key/value pairs.
+   *
+   * @param array|null $params
+   * @return bool
+   */
+  protected static function shouldSendJsonBody($params) {
+    if (!is_array($params) || empty($params)) {
+      return false;
+    }
+
+    if (self::containsUploadValue($params)) {
+      return false;
+    }
+
+    foreach ($params as $value) {
+      if (is_array($value) || is_object($value)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  /**
+   * Detect file upload values to avoid forcing JSON on multipart-like requests.
+   *
+   * @param mixed $value
+   * @return bool
+   */
+  protected static function containsUploadValue($value) {
+    if ($value instanceof \CURLFile) {
+      return true;
+    }
+
+    if (is_object($value) && get_class($value) === 'CURLStringFile') {
+      return true;
+    }
+
+    if (is_array($value)) {
+      foreach ($value as $item) {
+        if (self::containsUploadValue($item)) {
+          return true;
+        }
+      }
+    }
+
+    return false;
   }
 }
