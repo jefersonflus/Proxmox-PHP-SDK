@@ -1,0 +1,27 @@
+Implemented routes not matched in official apidoc (after placeholder normalization)
+Official source: https://pve.proxmox.com/pve-docs/api-viewer/apidoc.js
+
+Total mismatches: 22
+
+src/Access.php:102 updateGroup -> POST /access/groups/$groupid [method_mismatch] official_methods=DELETE,GET,PUT
+src/Nodes.php:88 CephFlags -> GET /nodes/$node/ceph/flags [path_not_found]
+src/Nodes.php:99 setCephFlags -> POST /nodes/$node/ceph/flags/$flag [path_not_found]
+src/Nodes.php:109 unsetCephFlags -> DELETE /nodes/$node/ceph/flags/$flag [path_not_found]
+src/Nodes.php:119 createCephMgr -> POST /nodes/$node/ceph/mgr [method_mismatch] official_methods=GET
+src/Nodes.php:148 createCephMon -> POST /nodes/$node/ceph/mon [method_mismatch] official_methods=GET
+src/Nodes.php:218 getCephPools -> GET /nodes/$node/ceph/pools [path_not_found]
+src/Nodes.php:228 createCephPool -> POST /nodes/$node/ceph/pools [path_not_found]
+src/Nodes.php:237 destroyCephPool -> DELETE /nodes/$node/ceph/pools [path_not_found]
+src/Nodes.php:246 CephConfig -> GET /nodes/$node/ceph/config [path_not_found]
+src/Nodes.php:264 CephDisks -> GET /nodes/$node/ceph/disks [path_not_found]
+src/Nodes.php:344 Disk -> POST /nodes/$node/disks [method_mismatch] official_methods=GET
+src/Nodes.php:432 firewallRulesLog -> GET /nodes/$node/firewall/rules/log [path_not_found]
+src/Nodes.php:441 firewallRulesOptions -> GET /nodes/$node/firewall/rules/options [path_not_found]
+src/Nodes.php:1576 qemuAgent -> POST /nodes/$node/qemu/$vmid/status/agent [path_not_found]
+src/Nodes.php:1868 scanGlusterfs -> GET /nodes/$node/scan/glusterfs [path_not_found]
+src/Nodes.php:1904 scanUsb -> GET /nodes/$node/scan/usb [path_not_found]
+src/Nodes.php:2075 storageRRD -> GET /nodes/$node/storage/rrd [path_not_found]
+src/Nodes.php:2085 storageRRDdata -> GET /nodes/$node/storage/rrddata [path_not_found]
+src/Nodes.php:2095 storageStatus -> GET /nodes/$node/storage/status [path_not_found]
+src/Nodes.php:2106 storageUpload -> POST /nodes/$node/storage/upload [path_not_found]
+src/Storage.php:61 deleteStorage -> Delete /storage/$storage [invalid_http_method_literal] official_methods=DELETE,GET,PUT
